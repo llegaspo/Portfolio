@@ -227,10 +227,16 @@ export default function Home() {
           <Section title="// PROJECTS" delay={0.2}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
               <ProjectCard
+                id="automated-drone"
+                description="This is a project heehehehehehhe"
+                image="/github.png"
                 title="School Announcement System"
                 tags={["React", "TypeScript", "PostgreSQL"]}
               />
               <ProjectCard
+                id="portfolio-v1"
+                description="This is a project heehehehehehhe"
+                image="/github.png"
                 title="Freelance Platform"
                 tags={["Next.js", "Tailwind", "Stripe"]}
               />

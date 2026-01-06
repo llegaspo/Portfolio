@@ -6,6 +6,7 @@ import "./App.css";
 import Home from "./pages/home";
 import Github from "./pages/github";
 import Contact from "./pages/contact";
+import ProjectDetails from "./pages/projectDetails";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/github" element={<Github />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/project/:id" element={<ProjectDetails />} />
     </Routes>
   );
 }
