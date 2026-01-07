@@ -1,20 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-
-// --- TYPES ---
-type Repository = {
-  name: string;
-  description: string;
-  url: string;
-  stargazerCount: number;
-  forkCount: number;
-  updatedAt: string;
-  primaryLanguage: {
-    name: string;
-    color: string;
-  } | null;
-};
+import { getThemeColor } from "../utils/helper";
+import type { Repository } from "../components/github/repoCard";
+import RepoCard from "../components/github/repoCard";
 
 type Calendar = {
   totalContributions: number;
@@ -37,89 +26,6 @@ type UserProfile = {
   following: { totalCount: number };
 };
 
-// --- HELPERS ---
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
-};
-
-const getThemeColor = (count: number) => {
-  if (count === 0) return "rgba(31, 41, 55, 0.4)"; // Faint gray
-  if (count <= 2) return "#4c1d95";
-  if (count <= 5) return "#6d28d9";
-  if (count <= 10) return "#8b5cf6";
-  return "#c4b5fd";
-};
-
-// --- COMPONENT: REPO CARD (Redesigned) ---
-const RepoCard = ({ repo, index }: { repo: Repository; index: number }) => (
-  <motion.a
-    href={repo.url}
-    target="_blank"
-    rel="noreferrer"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.1 + index * 0.05 }}
-    className="group relative flex flex-col h-full p-6 rounded-2xl overflow-hidden transition-all duration-300
-    bg-gray-900/40 backdrop-blur-md border border-white/5 hover:border-violet-500/30 hover:shadow-2xl hover:shadow-violet-500/10"
-  >
-    {/* Subtle Hover Gradient Background */}
-    <div className="absolute inset-0 bg-gradient-to-br from-violet-600/5 to-fuchsia-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-    <div className="relative z-10 flex flex-col h-full">
-      <div className="flex justify-between items-start mb-4">
-        <h3 className="font-bold text-lg text-white group-hover:text-violet-300 transition-colors flex items-center gap-2">
-          {repo.name}
-        </h3>
-        <div className="flex items-center gap-3 text-gray-400 text-xs font-mono bg-black/20 px-2 py-1 rounded-full">
-          {repo.stargazerCount > 0 && (
-            <div className="flex items-center gap-1">
-              <span className="text-yellow-400">★</span>
-              <span>{repo.stargazerCount}</span>
-            </div>
-          )}
-          {repo.forkCount > 0 && (
-            <div className="flex items-center gap-1">
-              <span className="text-gray-400">⑂</span>
-              <span>{repo.forkCount}</span>
-            </div>
-          )}
-          {/* If 0 stars/forks, show a dash so it's not empty */}
-          {repo.stargazerCount === 0 && repo.forkCount === 0 && <span>-</span>}
-        </div>
-      </div>
-
-      <p className="text-sm text-gray-400 mb-6 line-clamp-2 leading-relaxed">
-        {repo.description || "No description provided."}
-      </p>
-
-      <div className="mt-auto flex items-center justify-between text-xs pt-4 border-t border-white/5">
-        <div className="flex items-center gap-2">
-          {repo.primaryLanguage ? (
-            <>
-              <span
-                className="w-2 h-2 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.5)]"
-                style={{ backgroundColor: repo.primaryLanguage.color }}
-              />
-              <span className="text-gray-300 font-medium">
-                {repo.primaryLanguage.name}
-              </span>
-            </>
-          ) : (
-            <span className="text-gray-600 italic">No language</span>
-          )}
-        </div>
-        <span className="text-gray-500">{formatDate(repo.updatedAt)}</span>
-      </div>
-    </div>
-  </motion.a>
-);
-
-// --- MAIN COMPONENT ---
 export default function Github() {
   const [calendar, setCalendar] = useState<Calendar | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -270,17 +176,12 @@ export default function Github() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-gray-200 selection:bg-violet-500/30 font-inter p-6 lg:p-12 relative overflow-hidden">
-      {/* --- AMBIENT BACKGROUND GLOWS --- */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Top Left Blob */}
         <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-violet-800/20 rounded-full blur-[128px]" />
-        {/* Bottom Right Blob */}
         <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-fuchsia-800/10 rounded-full blur-[128px]" />
       </div>
 
-      {/* --- CONTENT WRAPPER --- */}
       <div className="relative z-10">
-        {/* --- BACK BUTTON --- */}
         <Link
           to="/"
           className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors group px-4 py-2 rounded-lg hover:bg-white/5"
@@ -292,7 +193,6 @@ export default function Github() {
         </Link>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* --- LEFT COLUMN: PROFILE CARD --- */}
           <div className="lg:col-span-4 xl:col-span-3">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -356,9 +256,7 @@ export default function Github() {
             </motion.div>
           </div>
 
-          {/* --- RIGHT COLUMN: STATS & REPOS --- */}
           <div className="lg:col-span-8 xl:col-span-9 space-y-10">
-            {/* 1. CONTRIBUTION GRAPH */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -404,7 +302,6 @@ export default function Github() {
               </div>
             </motion.div>
 
-            {/* 2. SOURCE REPOSITORIES */}
             <div>
               <div className="flex items-baseline gap-4 mb-6">
                 <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
@@ -429,7 +326,6 @@ export default function Github() {
               </div>
             </div>
 
-            {/* 3. FORKED REPOSITORIES */}
             {forkedRepos.length > 0 && (
               <div>
                 <div className="flex items-baseline gap-4 mb-6 pt-4">

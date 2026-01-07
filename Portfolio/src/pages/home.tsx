@@ -1,12 +1,21 @@
 import ProfileCard from "../components/profileCard";
 import Chip from "../components/ui/chip";
+import { useState } from "react";
 import Background from "../components/home/background";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import ExperienceItem from "../components/home/experienceItem";
 import ProjectCard from "../components/home/projectCard";
 import Section from "../components/ui/section";
+import { COMPETITIONS } from "../data/projectData";
+import { FaArrowRight, FaChevronDown } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Home() {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  const toggle = (id: string) => {
+    setExpandedId(expandedId === id ? null : id);
+  };
   return (
     <main className="min-h-screen text-gray-200 selection:bg-violet-500/30">
       <Background />
@@ -23,7 +32,6 @@ export default function Home() {
           >
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-blue-600 rounded-2xl blur opacity-20"></div>{" "}
-              {/* Fixed width for sidebar */}
               {/* <div className="md:sticky top-12 mt-24 border-2 border-white"> */}
               <div className="relative bg-gray-900/80 backdrop-blur-xl border border-gray-800 rounded-2xl p-2 shadow-2xl">
                 <ProfileCard />
@@ -227,18 +235,35 @@ export default function Home() {
           <Section title="// PROJECTS" delay={0.2}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
               <ProjectCard
-                id="automated-drone"
-                description="This is a project heehehehehehhe"
-                image="/github.png"
+                id="school-announcements"
                 title="School Announcement System"
-                tags={["React", "TypeScript", "PostgreSQL"]}
+                description="Web app for containing all announcements in University of the Philippines Cebu built with Nextjs."
+                image="/announcementWebsite.png"
+                tags={["Nextjs", "React", "TypeScript"]}
               />
+
               <ProjectCard
-                id="portfolio-v1"
-                description="This is a project heehehehehehhe"
-                image="/github.png"
-                title="Freelance Platform"
-                tags={["Next.js", "Tailwind", "Stripe"]}
+                id="eduroad"
+                title="EduRoad"
+                description="Mobile app built with Flutter integrating AI features."
+                image="/eduroad.png"
+                tags={["Flutter", "AI", "Android Studio"]}
+              />
+
+              <ProjectCard
+                id="palengke"
+                title="PALengke"
+                description="React Native web app built during IBPAP Hackathon."
+                image="/PALengke.png"
+                tags={["React Native", "Web", "Hackathon"]}
+              />
+
+              <ProjectCard
+                id="panday"
+                title="Panday"
+                description="Web app connecting clients with service workers."
+                image="/panday.png"
+                tags={["React", "Startup", "Web App"]}
               />
             </div>
           </Section>
@@ -260,42 +285,110 @@ export default function Home() {
           {/*   clients using full-stack web technologies */}
           {/* </div> */}
 
-          <Section title="// COMPETITIONS" delay={0.2}>
-            <div className="space-y-8 max-w-3xl">
-              <div className="group">
-                <div className="flex justify-between items-baseline mb-2">
-                  <h3 className="text-2xl font-bold text-gray-100 group-hover:text-emerald-400 transition-colors">
-                    Ceb-i Hacks 2025
-                  </h3>
-                  <span className="text-emerald-500 font-mono text-sm border border-emerald-500/30 px-2 py-1 rounded">
-                    Top 25 Finalist
-                  </span>
-                </div>
-                <p className="text-gray-400 text-lg">
-                  Built a "Gig Economy" web platform connecting informal workers
-                  to clients using full-stack web technologies.
-                </p>
-              </div>
+          <Section title="// COMPETITIONS & HACKATHONS" delay={0.2}>
+            <div className="space-y-4 max-w-4xl">
+              {COMPETITIONS.map((comp) => {
+                const isOpen = expandedId === comp.id;
 
-              <div className="h-px bg-gray-800 w-full" />
+                return (
+                  <motion.div
+                    key={comp.id}
+                    initial={false}
+                    className={`group border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 ${
+                      isOpen
+                        ? "bg-white/5 border-violet-500/30"
+                        : "hover:bg-white/[0.02]"
+                    }`}
+                  >
+                    {/* === CLICKABLE HEADER === */}
+                    <button
+                      onClick={() => toggle(comp.id)}
+                      className="w-full text-left p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-pointer outline-none"
+                    >
+                      <div className="flex-1">
+                        <div className="flex flex-wrap items-center gap-3 mb-2">
+                          <h3
+                            className={`text-xl font-bold transition-colors ${
+                              isOpen
+                                ? "text-violet-400"
+                                : "text-gray-100 group-hover:text-violet-300"
+                            }`}
+                          >
+                            {comp.title}
+                          </h3>
+                          {/* Conditional Badge Coloring */}
+                          <span
+                            className={`text-xs font-mono px-2 py-1 rounded border ${
+                              comp.result.includes("Top") ||
+                              comp.result.includes("Winner")
+                                ? "border-emerald-500/30 text-emerald-400 bg-emerald-500/10"
+                                : "border-gray-700 text-gray-400"
+                            }`}
+                          >
+                            {comp.result}
+                          </span>
+                        </div>
+                        <p className="text-gray-400 text-sm md:text-base font-light">
+                          {comp.shortDesc}
+                        </p>
+                      </div>
 
-              <div className="group">
-                <div className="flex justify-between items-baseline mb-2">
-                  <h3 className="text-2xl font-bold text-gray-100 group-hover:text-emerald-400 transition-colors">
-                    Philippine Startup Challenge X
-                  </h3>
-                  <span className="text-emerald-500 font-mono text-sm border border-emerald-500/30 px-2 py-1 rounded">
-                    Top 25 Finalist
-                  </span>
-                </div>
-                <p className="text-gray-400 text-lg">
-                  Solved nearly all flags in network forensics and vulnerability
-                  assessment challenges.
-                </p>
-              </div>
+                      {/* Chevron Icon */}
+                      <div
+                        className={`text-gray-500 transition-transform duration-300 ${
+                          isOpen ? "rotate-180 text-violet-500" : ""
+                        }`}
+                      >
+                        <FaChevronDown />
+                      </div>
+                    </button>
+
+                    {/* === EXPANDABLE CONTENT === */}
+                    <AnimatePresence>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                        >
+                          <div className="px-6 pb-6 pt-0 border-t border-white/5">
+                            <div className="flex flex-col md:flex-row gap-6 mt-6">
+                              {/* Image Placeholder */}
+                              <div className="w-full md:w-48 h-32 flex-shrink-0 rounded-lg overflow-hidden relative">
+                                <img
+                                  src={comp.image}
+                                  alt={comp.title}
+                                  className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
+                                />
+                                <div className="absolute inset-0 bg-violet-900/20 mix-blend-overlay" />
+                              </div>
+
+                              {/* Text & Button */}
+                              <div className="flex-1">
+                                <p className="text-gray-300 leading-relaxed mb-6">
+                                  {comp.fullDesc}
+                                </p>
+
+                                {/* Link to Project Details */}
+                                <Link
+                                  to={`/project/${comp.projectId}`}
+                                  className="inline-flex items-center gap-2 text-sm font-bold text-violet-400 hover:text-white transition-colors group/btn"
+                                >
+                                  <span>View Project Case Study</span>
+                                  <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
             </div>
           </Section>
-
           <Section title="// EDUCATION" delay={0.2}>
             <div className="bg-gray-900/30 p-6 rounded-xl border-l-4 border-violet-500">
               <h3 className="text-2xl font-bold text-gray-50">

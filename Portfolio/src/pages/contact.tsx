@@ -17,7 +17,6 @@ export default function Contact() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [copied, setCopied] = useState(false);
 
-  // YOUR KEYS
   const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
   const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
   const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
@@ -55,14 +54,12 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-gray-200 selection:bg-violet-500/30 font-inter p-6 lg:p-12 relative overflow-hidden flex flex-col items-center">
-      {/* --- AMBIENT BACKGROUND GLOWS --- */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-violet-800/20 rounded-full blur-[128px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-800/10 rounded-full blur-[128px]" />
       </div>
 
       <div className="relative z-10 w-full max-w-5xl flex flex-col">
-        {/* --- BACK LINK (Consistent Style) --- */}
         <div className="mb-8">
           <Link
             to="/"
@@ -75,13 +72,11 @@ export default function Contact() {
           </Link>
         </div>
 
-        {/* --- MAIN GLASS CARD --- */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="w-full grid grid-cols-1 md:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-gray-900/60 backdrop-blur-xl"
         >
-          {/* --- LEFT SIDE: THE FORM --- */}
           <div className="p-8 md:p-12 relative">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-500 to-transparent"></div>
 
@@ -157,7 +152,6 @@ export default function Contact() {
                 {loading ? "Sending..." : "Transmit Message"}
               </button>
 
-              {/* Status Feedback */}
               {status === "success" && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -179,7 +173,6 @@ export default function Contact() {
             </form>
           </div>
 
-          {/* --- RIGHT SIDE: DIRECT CONTACT --- */}
           <div className="bg-[#0a0a0a]/40 p-8 md:p-12 flex flex-col justify-center border-l border-white/5 relative backdrop-blur-sm">
             <div className="mb-10">
               <h2 className="text-2xl font-bold text-white mb-4">
@@ -192,7 +185,6 @@ export default function Contact() {
             </div>
 
             <div className="space-y-6">
-              {/* OPTION 1: COPY TO CLIPBOARD */}
               <div className="group relative">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-600 to-emerald-600 rounded-2xl opacity-30 blur group-hover:opacity-75 transition duration-500"></div>
                 <button
@@ -217,7 +209,6 @@ export default function Contact() {
                 </button>
               </div>
 
-              {/* OPTION 2: MAILTO LINK */}
               <a
                 href={`mailto:${MY_EMAIL}`}
                 className="block w-full text-center py-4 rounded-xl border border-white/10 text-gray-300 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all flex items-center justify-center gap-2 group"
