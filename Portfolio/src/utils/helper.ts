@@ -8,7 +8,7 @@ export const formatDate = (dateString: string) => {
 };
 
 export const getThemeColor = (count: number) => {
-  if (count === 0) return "rgba(31, 41, 55, 0.4)"; // Faint gray
+  if (count === 0) return "rgba(31, 41, 55, 0.4)";
   if (count <= 2) return "#4c1d95";
   if (count <= 5) return "#6d28d9";
   if (count <= 10) return "#8b5cf6";

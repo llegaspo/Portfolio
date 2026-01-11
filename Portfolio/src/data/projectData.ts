@@ -119,9 +119,8 @@ export const COMPETITIONS = [
     shortDesc: "Built a mobile app called EduRoad with Flutter.",
     fullDesc:
       "Led the development of 'EduRoad', a mobile application built with Flutter and Android Studio. We focused on integrating AI features and API functionalities to create personalized learning pathways for students.",
-    image:
-      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop",
-    projectId: "eduroad", // Links to /project/eduroad
+    image: "/eduroad.png",
+    projectId: "eduroad",
   },
   {
     id: "ibpap",
@@ -131,9 +130,8 @@ export const COMPETITIONS = [
     shortDesc: "Created a React Native web app called PALengke.",
     fullDesc:
       "Developed 'PALengke' under strict time constraints. This experience honed my cross-platform development skills, delivering a functional React Native web application that digitizes local market transactions.",
-    image:
-      "https://images.unsplash.com/photo-1472851294608-4155f2118c03?q=80&w=2070&auto=format&fit=crop",
-    projectId: "palengke", // Links to /project/palengke
+    image: "PALengke.png",
+    projectId: "palengke",
   },
   {
     id: "trend-micro",
@@ -145,7 +143,7 @@ export const COMPETITIONS = [
       "Competed in a high-stakes cybersecurity challenge. Despite being first-time participants, our team solved nearly all flags, specializing in network forensics, packet analysis, and vulnerability assessment.",
     image:
       "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop",
-    projectId: "trend-micro-ctf", // Links to /project/trend-micro-ctf
+    projectId: "trend-micro-ctf",
   },
   {
     id: "psc-x",
@@ -155,8 +153,7 @@ export const COMPETITIONS = [
     shortDesc: "Developed 'Panday' connecting informal workers.",
     fullDesc:
       "Recognized as a Top 25 Finalist in Central Visayas. We developed 'Panday', a web application that connects homeowners with informal service workers (plumbers, masons), bridging the gap in the local gig economy.",
-    image:
-      "https://images.unsplash.com/photo-1581094794329-cd67bcecfb31?q=80&w=2070&auto=format&fit=crop",
-    projectId: "panday", // Links to /project/panday
+    image: "panday.png",
+    projectId: "panday",
   },
 ];

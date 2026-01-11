@@ -38,9 +38,9 @@ type Record = {
 const PROJECTS: Record[] = [
   {
     id: "school-announcements",
-    title: "School Announcement System",
+    title: "What's UP",
     subtitle: "Dynamic Campus Information Hub",
-    date: "Software Engineering Project",
+    date: "March 2025 - Present",
     heroImage: "/announcementWebsite.png",
     description:
       "Applied internship learnings and software engineering skills to develop a dynamic system for school announcements. This platform replaces traditional bulletin boards with a digital, centralized hub, ensuring that critical academic updates, event schedules, and administrative news reach students in real-time.",
@@ -53,13 +53,13 @@ const PROJECTS: Record[] = [
     challenges:
       "Implementing a secure authentication system while maintaining ease of access for the student body was complex. I utilized JWT (JSON Web Tokens) for session management and applied software engineering best practices to decouple the frontend from the backend logic.",
     techStack: ["React", "TypeScript", "PostgreSQL", "Node.js", "Tailwind CSS"],
-    githubUrl: "https://github.com/yourusername/school-announcements",
+    githubUrl: "https://github.com/llegaspo/WhatsUP",
   },
   {
     id: "eduroad",
     title: "EduRoad",
     subtitle: "AI-Powered Educational Pathway App",
-    date: "Notion Hackathon (UP Cebu)",
+    date: "February 2025 - Present",
     heroImage: "/eduroad.png",
     description:
       "Developed during the Notion Hackathon at UP Cebu, EduRoad is a mobile application designed to guide students through their educational journeys. By integrating AI features and robust API functionalities, the app provides personalized learning roadmaps and resource recommendations.",
@@ -72,13 +72,13 @@ const PROJECTS: Record[] = [
     challenges:
       "Integrating complex AI endpoints within the Flutter ecosystem while maintaining a responsive UI was challenging. We overcame this by optimizing API calls and using asynchronous state management to ensure a smooth user experience.",
     techStack: ["Flutter", "Android Studio", "Dart", "OpenAI API", "REST APIs"],
-    githubUrl: "https://github.com/yourusername/eduroad",
+    githubUrl: "https://github.com/DripHard/EduRoad",
   },
   {
     id: "palengke",
     title: "PALengke",
     subtitle: "Cross-Platform Digital Marketplace",
-    date: "IBPAP Hackathon (Can You HackIT?)",
+    date: "July 2025 - Present",
     heroImage: "/PALengke.png",
     description:
       "PALengke is a React Native web application created during the IBPAP 'Can You HackIT?' challenge. It digitizes the traditional marketplace experience, allowing local vendors to reach a broader audience through a unified digital platform.",
@@ -91,7 +91,7 @@ const PROJECTS: Record[] = [
     challenges:
       "The primary hurdle was the strict time constraint of the hackathon. We had to prioritize core MVP features and utilize React Native's reusability to deploy a functional web application rapidly.",
     techStack: ["React Native", "TypeScript", "Node.js", "Firebase"],
-    githubUrl: "https://github.com/yourusername/palengke",
+    githubUrl: "https://github.com/llegaspo/PALengke",
   },
   {
     id: "trend-micro-ctf",
@@ -122,7 +122,7 @@ const PROJECTS: Record[] = [
     id: "panday",
     title: "Panday",
     subtitle: "Informal Labor Connection Platform",
-    date: "PSC X - Top 25 Finalist",
+    date: "August 2025 - Present",
     heroImage: "/panday.png",
     description:
       "Recognized as a Top 25 Finalist in the Philippine Startup Challenge (Central Visayas), Panday is a web application that connects homeowners with informal service workers like plumbers and masons, bridging the gap in the gig economy.",
@@ -134,8 +134,8 @@ const PROJECTS: Record[] = [
     ],
     challenges:
       "Designing a system that builds trust between anonymous clients and informal workers was difficult. We implemented a verification logic and a transparent review system to ensure safety and reliability for both parties.",
-    techStack: ["React", "Node.js", "MongoDB", "Express", "Google Maps API"],
-    githubUrl: "https://github.com/yourusername/panday",
+    techStack: ["Vite", "Django", "TypeScript", "Supabase", "LLM"],
+    githubUrl: "https://github.com/scharasyne/Panday",
   },
 ];
 
@@ -369,7 +369,7 @@ export default function ProjectDetails() {
                     <FaCalendarAlt />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">Completed</p>
+                    <p className="text-xs text-gray-500 mb-1">In Progress</p>
                     <p className="font-bold text-lg tracking-tight">
                       {project.date}
                     </p>
