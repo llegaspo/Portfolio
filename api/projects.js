@@ -1,6 +1,6 @@
 console.log("Projects file loaded!");
-import dbConnect from './db';
-import { Project } from './models';
+import dbConnect from './db.js';
+import { Project } from './models.js';
 
 export default async function handler(req, res) {
   try {

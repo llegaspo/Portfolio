@@ -1,6 +1,6 @@
 console.log("Competitions file loaded!");
-import dbConnect from './db';
-import { Competition } from './models';
+import dbConnect from './db.js';
+import { Competition } from './models.js';
 
 export default async function handler(req, res) {
   try {
