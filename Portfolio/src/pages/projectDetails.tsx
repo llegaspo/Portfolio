@@ -54,6 +54,7 @@ export default function ProjectDetails() {
       try {
         setLoading(true);
         const response = await fetch("/api/projects");
+        console.log("Project res", response);
         const data = await response.json();
 
         if (Array.isArray(data)) {

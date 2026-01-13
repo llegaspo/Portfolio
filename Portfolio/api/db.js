@@ -14,6 +14,7 @@ if (!cached) {
 
 async function dbConnect() {
   if (cached.conn) {
+    console.log("Already Successfully Connected", cached.conn);
     return cached.conn;
   }
 
@@ -23,12 +24,15 @@ async function dbConnect() {
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log("Cached DB", cached.promise);
       return mongoose;
     });
+
   }
 
   try {
     cached.conn = await cached.promise;
+    console.log("Successfully Connected", cached.conn);
   } catch (e) {
     cached.promise = null;
     throw e;

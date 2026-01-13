@@ -29,12 +29,13 @@ export default function Home() {
     const fetchCompetitions = async () => {
       try {
         const response = await fetch("/api/competitions");
+        console.log("competition res", response);
         const data = await response.json();
         if (Array.isArray(data)) {
           setCompetitions(data);
         }
       } catch (error) {
-        console.error("Failed to fetch hackathons:", error);
+        console.error("Failed to fetch competitions:", error);
       } finally {
         setLoading(false);
       }
