@@ -1,3 +1,4 @@
+console.log("Competitions file loaded!");
 import dbConnect from './db';
 import { Competition } from './models';
 

@@ -1,3 +1,4 @@
+console.log("Projects file loaded!");
 import dbConnect from './db';
 import { Project } from './models';
 
