@@ -1,4 +1,4 @@
-import dbConnect from './dbConnect';
+import dbConnect from './db';
 import { Competition } from './models';
 
 export default async function handler(req, res) {
