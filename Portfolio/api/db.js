@@ -1,25 +1,25 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env');
-}
-
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
 
 async function dbConnect() {
+  const MONGODB_URI = process.env.MONGODB_URI;
+  console.log("mongo uro", MONGODB_URI);
+
+  if (!MONGODB_URI) {
+    throw new Error('Please define the MONGODB_URI environment variable inside .env');
+  }
+
+  let cached = global.mongoose;
+
+  if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null };
+  }
   if (cached.conn) {
     return cached.conn;
   }
 
   if (!cached.promise) {
     const opts = {
-      // bufferCommands: false, // Commented out to prevent "buffering timed out" errors during cold starts
       serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of hanging
     };
 
@@ -43,3 +43,4 @@ async function dbConnect() {
 }
 
 export default dbConnect;
+
