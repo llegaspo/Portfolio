@@ -1,0 +1,45 @@
+import mongoose from 'mongoose';
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable inside .env');
+}
+
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      // bufferCommands: false, // Commented out to prevent "buffering timed out" errors during cold starts
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of hanging
+    };
+
+    console.log("Connecting to MongoDB..."); // Log attempt
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log("Mongoose connected successfully");
+      return mongoose;
+    });
+  }
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    console.error("MongoDB Connection Error:", e); // This will show up in Vercel Logs
+    throw e;
+  }
+
+  return cached.conn;
+}
+
+export default dbConnect;
