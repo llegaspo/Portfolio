@@ -27,4 +27,4 @@ const CompetitionSchema = new mongoose.Schema({
 }, { collection: 'Competitions' });
 
 export const Project = mongoose.models.Project || mongoose.model('Project', ProjectSchema);
-export const Competition = mongoose.models.Hackathon || mongoose.model('Competition', CompetitionSchema);
+export const Competition = mongoose.models.Competition || mongoose.model('Competition', CompetitionSchema);
