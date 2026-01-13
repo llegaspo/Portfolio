@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
@@ -22,7 +22,8 @@ const slugify = (text: string) => {
 };
 
 type Record = {
-  id: string;
+  _id?: string; // MongoDB auto-generates this
+  id: string; // Your custom string ID (e.g., "school-announcements")
   title: string;
   subtitle: string;
   date: string;
@@ -35,123 +36,56 @@ type Record = {
   liveUrl?: string;
 };
 
-const PROJECTS: Record[] = [
-  {
-    id: "school-announcements",
-    title: "What's UP",
-    subtitle: "Dynamic Campus Information Hub",
-    date: "March 2025 - Present",
-    heroImage: "/announcementWebsite.png",
-    description:
-      "Applied internship learnings and software engineering skills to develop a dynamic system for school announcements. This platform replaces traditional bulletin boards with a digital, centralized hub, ensuring that critical academic updates, event schedules, and administrative news reach students in real-time.",
-    features: [
-      "Role-based dashboards (Admin vs Student)",
-      "Real-time CRUD operations for announcements",
-      "Category filtering and search",
-      "Responsive design for mobile access",
-    ],
-    challenges:
-      "Implementing a secure authentication system while maintaining ease of access for the student body was complex. I utilized JWT (JSON Web Tokens) for session management and applied software engineering best practices to decouple the frontend from the backend logic.",
-    techStack: ["React", "TypeScript", "PostgreSQL", "Node.js", "Tailwind CSS"],
-    githubUrl: "https://github.com/llegaspo/WhatsUP",
-  },
-  {
-    id: "eduroad",
-    title: "EduRoad",
-    subtitle: "AI-Powered Educational Pathway App",
-    date: "February 2025 - Present",
-    heroImage: "/eduroad.png",
-    description:
-      "Developed during the Notion Hackathon at UP Cebu, EduRoad is a mobile application designed to guide students through their educational journeys. By integrating AI features and robust API functionalities, the app provides personalized learning roadmaps and resource recommendations.",
-    features: [
-      "AI-driven personalized learning paths",
-      "Seamless API integration for resource fetching",
-      "Cross-platform mobile UI",
-      "Real-time progress tracking",
-    ],
-    challenges:
-      "Integrating complex AI endpoints within the Flutter ecosystem while maintaining a responsive UI was challenging. We overcame this by optimizing API calls and using asynchronous state management to ensure a smooth user experience.",
-    techStack: ["Flutter", "Android Studio", "Dart", "OpenAI API", "REST APIs"],
-    githubUrl: "https://github.com/DripHard/EduRoad",
-  },
-  {
-    id: "palengke",
-    title: "PALengke",
-    subtitle: "Cross-Platform Digital Marketplace",
-    date: "July 2025 - Present",
-    heroImage: "/PALengke.png",
-    description:
-      "PALengke is a React Native web application created during the IBPAP 'Can You HackIT?' challenge. It digitizes the traditional marketplace experience, allowing local vendors to reach a broader audience through a unified digital platform.",
-    features: [
-      "Cross-platform compatibility (Web & Mobile)",
-      "Vendor inventory management",
-      "Real-time order notifications",
-      "Localized search filtering",
-    ],
-    challenges:
-      "The primary hurdle was the strict time constraint of the hackathon. We had to prioritize core MVP features and utilize React Native's reusability to deploy a functional web application rapidly.",
-    techStack: ["React Native", "TypeScript", "Node.js", "Firebase"],
-    githubUrl: "https://github.com/llegaspo/PALengke",
-  },
-  {
-    id: "trend-micro-ctf",
-    title: "Trend Micro CTF",
-    subtitle: "Cybersecurity Capture The Flag Challenge",
-    date: "Trend Micro Competition",
-    heroImage:
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop",
-    description:
-      "Competed in a high-stakes cybersecurity challenge hosted by Trend Micro. As a team of first-time participants, we navigated complex security puzzles, analyzing vulnerabilities and decrypting secure data to capture flags.",
-    features: [
-      "Network traffic analysis",
-      "Cryptography and steganography solving",
-      "Web vulnerability exploitation",
-      "Forensic data recovery",
-    ],
-    challenges:
-      "Lacking prior CTF experience, we faced a steep learning curve with advanced cryptographic challenges. We relied on rapid on-the-spot learning and strong teamwork to solve nearly all flags, outperforming many experienced teams.",
-    techStack: [
-      "Python",
-      "Wireshark",
-      "Linux/Kali",
-      "Bash Scripting",
-      "Burp Suite",
-    ],
-  },
-  {
-    id: "panday",
-    title: "Panday",
-    subtitle: "Informal Labor Connection Platform",
-    date: "August 2025 - Present",
-    heroImage: "/panday.png",
-    description:
-      "Recognized as a Top 25 Finalist in the Philippine Startup Challenge (Central Visayas), Panday is a web application that connects homeowners with informal service workers like plumbers and masons, bridging the gap in the gig economy.",
-    features: [
-      "Worker profile verification system",
-      "Geolocation-based matching",
-      "Service rating and review system",
-      "Direct messaging interface",
-    ],
-    challenges:
-      "Designing a system that builds trust between anonymous clients and informal workers was difficult. We implemented a verification logic and a transparent review system to ensure safety and reliability for both parties.",
-    techStack: ["Vite", "Django", "TypeScript", "Supabase", "LLM"],
-    githubUrl: "https://github.com/scharasyne/Panday",
-  },
-];
-
 export default function ProjectDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const project = PROJECTS.find((p) => slugify(p.id) === id) || null;
+  const [project, setProject] = useState<Record | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const { scrollY } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
   const heroScale = useTransform(scrollY, [0, 300], [1, 1.1]);
 
   useEffect(() => {
+    const fetchProjectData = async () => {
+      if (!id) return;
+
+      try {
+        setLoading(true);
+        const response = await fetch("/api/projects");
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          const found = data.find((p: Record) => slugify(p.id) === id);
+          setProject(found || null);
+        }
+      } catch (error) {
+        console.error("Failed to fetch project details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjectData();
+  }, [id]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#020204] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-violet-500/30 border-t-violet-500 rounded-full animate-spin" />
+          <p className="text-gray-400 font-mono text-sm animate-pulse">
+            INITIALIZING_UPLINK...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (!project) {
     return (

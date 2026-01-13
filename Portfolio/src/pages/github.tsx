@@ -34,86 +34,17 @@ export default function Github() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const token = import.meta.env.VITE_GITHUB_TOKEN;
   const username = "llegaspo";
 
   useEffect(() => {
     const fetchGithubData = async () => {
-      if (!token) {
-        setError("Missing VITE_GITHUB_TOKEN in .env file.");
-        setLoading(false);
-        return;
-      }
-
       try {
-        const response = await fetch("https://api.github.com/graphql", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: `
-            query {
-              user(login: "${username}") {
-                name
-                login
-                avatarUrl
-                bio
-                url
-                followers { totalCount }
-                following { totalCount }
-
-                # LIST 1: SOURCE REPOS
-                sourceRepos: repositories(first: 30, ownerAffiliations: OWNER, isFork: false, privacy: PUBLIC, orderBy: {field: UPDATED_AT, direction: DESC}) {
-                  nodes {
-                    name
-                    description
-                    url
-                    stargazerCount
-                    forkCount
-                    updatedAt
-                    primaryLanguage {
-                      name
-                      color
-                    }
-                  }
-                }
-
-                # LIST 2: FORKED REPOS
-                forkRepos: repositories(first: 30, ownerAffiliations: OWNER, isFork: true, privacy: PUBLIC, orderBy: {field: UPDATED_AT, direction: DESC}) {
-                  nodes {
-                    name
-                    description
-                    url
-                    stargazerCount
-                    forkCount
-                    updatedAt
-                    primaryLanguage {
-                      name
-                      color
-                    }
-                  }
-                }
-
-                contributionsCollection {
-                  contributionCalendar {
-                    totalContributions
-                    weeks {
-                      contributionDays {
-                        contributionCount
-                        date
-                        color
-                      }
-                    }
-                  }
-                }
-              }
-            }`,
-          }),
-        });
-
+        const response = await fetch(`/api/github?username=${username}`);
         const data = await response.json();
+
+        if (data.error) {
+          throw new Error(data.error);
+        }
 
         if (data.errors) {
           console.error("Query Error:", data.errors);
@@ -136,15 +67,15 @@ export default function Github() {
         setForkedRepos(userData.forkRepos.nodes);
         setCalendar(userData.contributionsCollection.contributionCalendar);
         setLoading(false);
-      } catch (e) {
+      } catch (e: any) {
         console.error("error", e);
-        setError("Failed to fetch data.");
+        setError(e.message || "Failed to fetch data.");
         setLoading(false);
       }
     };
 
     fetchGithubData();
-  }, [token]);
+  }, []);
 
   if (loading)
     return (
