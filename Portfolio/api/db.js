@@ -14,27 +14,28 @@ if (!cached) {
 
 async function dbConnect() {
   if (cached.conn) {
-    console.log("Already Successfully Connected", cached.conn);
     return cached.conn;
   }
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false,
+      // bufferCommands: false, // Commented out to prevent "buffering timed out" errors during cold starts
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of hanging
     };
 
+    console.log("Connecting to MongoDB..."); // Log attempt
+
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log("Cached DB", cached.promise);
+      console.log("Mongoose connected successfully");
       return mongoose;
     });
-
   }
 
   try {
     cached.conn = await cached.promise;
-    console.log("Successfully Connected", cached.conn);
   } catch (e) {
     cached.promise = null;
+    console.error("MongoDB Connection Error:", e); // This will show up in Vercel Logs
     throw e;
   }
 
