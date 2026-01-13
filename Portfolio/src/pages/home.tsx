@@ -28,7 +28,7 @@ export default function Home() {
   useEffect(() => {
     const fetchCompetitions = async () => {
       try {
-        const response = await fetch("/api/competitions/");
+        const response = await fetch("/api/competitions");
         console.log("competition res", response);
         const data = await response.json();
         if (Array.isArray(data)) {
