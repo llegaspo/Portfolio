@@ -1,5 +1,6 @@
-import dbConnect from './db';
-import { Competition } from './models';
+console.log("Com loaded");
+import dbConnect from './db.js';
+import { Competition } from './models.js';
 
 export default async function handler(req, res) {
   try {

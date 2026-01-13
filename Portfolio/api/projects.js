@@ -1,5 +1,6 @@
-import dbConnect from './db';
-import { Project } from './models';
+console.log("proj load");
+import dbConnect from './db.js';
+import { Project } from './models.js';
 
 export default async function handler(req, res) {
   try {
