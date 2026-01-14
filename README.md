@@ -1,4 +1,4 @@
-# 👨‍💻 Jed Lordy S. LEgaspo - Personal Portfolio
+# 👨‍💻 Jed Lordy S. Legaspo - Personal Portfolio
 
 > **A high-performance personal portfolio website showcasing my journey as a hackathon competitor, and full-stack developer.**
 
