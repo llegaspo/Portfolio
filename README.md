@@ -1,6 +1,6 @@
 # 👨‍💻 Jed Lordy S. Legaspo - Personal Portfolio
 
-> **A high-performance personal portfolio website showcasing my journey as a hackathon competitor, and full-stack developer.**
+> **A personal portfolio website showcasing my journey as a hackathon competitor, and full-stack developer.**
 
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
