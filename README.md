@@ -95,4 +95,4 @@ Feel free to reach out for collaborations or opportunities!
 * **GitHub:** [github.com/llegaspo](https://github.com/llegaspo)
 
 ---
-*© [2026] [Jed Lordy S. Legaspo]. Built with Vite & TypeScript.*
+*©2026 Jed Lordy S. Legaspo. Built with Vite & TypeScript.*
