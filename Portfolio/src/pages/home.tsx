@@ -16,20 +16,22 @@ const featuredProjects = PROJECTS.filter((project) =>
     "scratch-hq",
     "get-nifty",
     "school-announcement-website",
+    "eduroad",
+    "palengke",
   ].includes(project.id),
 );
 
 const highlights = [
   {
-    id: "school-announcement-website",
-    title: "School Announcement Website",
-    result: "Coursework Project",
+    id: "panday",
+    title: "Philippine Startup Challenge (PSC) X",
+    result: "Top 25 Finalist",
     shortDesc:
-      "Built as a campus announcement platform with frontend work and backend contribution.",
+      "Contributed to Panday, a platform connecting clients with informal service workers.",
     fullDesc:
-      "I contributed to the frontend and part of the backend for a university announcement platform designed to make updates easier to publish and easier for students to find.",
-    image: "/announcementWebsite.png",
-    projectId: "school-announcement-website",
+      "Panday reached the Top 25 finalists in Central Visayas. I contributed to the product flow and overall platform experience for a web app connecting homeowners with informal workers.",
+    image: "/panday.webp",
+    projectId: "panday",
   },
   {
     id: "palengke",
@@ -39,19 +41,30 @@ const highlights = [
       "Helped build PALengke, a React Native app for small vendors, from Figma under time pressure.",
     fullDesc:
       "PALengke was built during the IBPAP Hackathon. I helped translate the team's Figma designs into working React Native screens for a small-vendor marketplace concept.",
-    image: "/PALengke.png",
+    image: "/PALengke.webp",
     projectId: "palengke",
   },
   {
-    id: "panday",
-    title: "Philippine Startup Challenge (PSC) X",
-    result: "Top 25 Finalist",
+    id: "school-announcement-website",
+    title: "School Announcement Website",
+    result: "Coursework Project",
     shortDesc:
-      "Contributed to Panday, a platform connecting clients with informal service workers.",
+      "Built as a campus announcement platform with frontend work and backend contribution.",
     fullDesc:
-      "Panday reached the Top 25 finalists in Central Visayas. I contributed to the product flow and overall platform experience for a web app connecting homeowners with informal workers.",
-    image: "/panday.png",
-    projectId: "panday",
+      "I contributed to the frontend and part of the backend for a university announcement platform designed to make updates easier to publish and easier for students to find.",
+    image: "/announcementWebsite.webp",
+    projectId: "school-announcement-website",
+  },
+  {
+    id: "eduroad",
+    title: "Notion Hackathon (UP Cebu)",
+    result: "Hackathon Build",
+    shortDesc:
+      "Built EduRoad, a Flutter mobile app with AI and API-backed features for student guidance.",
+    fullDesc:
+      "EduRoad was developed during the Notion Hackathon at UP Cebu. I helped build the Flutter app and worked on integrating AI-driven and API-backed functionality into a practical mobile experience for students.",
+    image: "/eduroad.webp",
+    projectId: "eduroad",
   },
 ];
 
@@ -63,10 +76,10 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen text-gray-200 selection:bg-violet-500/30">
+    <main className="min-h-screen text-gray-200 selection:bg-cyan-300/25">
       <Background />
       <div className="max-w-[1600px] mx-auto flex flex-col lg:justify-center lg:flex-row">
-        <div className="lg:w-[40%] lg:pl-20 lg:h-screen lg:sticky lg:top-12 mt-18 white p-6 flex flex-col items-center lg:items-end lg:border-r border-gray-800/50 relative z-20">
+        <div className="mt-6 lg:mt-0 lg:w-[40%] lg:pl-20 lg:h-screen lg:sticky lg:top-6 p-6 flex flex-col items-center lg:items-end lg:border-r border-gray-800/50 relative z-20">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -74,7 +87,7 @@ export default function Home() {
             className="w-full max-w-md"
           >
             <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-blue-600 rounded-2xl blur opacity-20"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-sky-500 rounded-2xl blur opacity-20"></div>
               <div className="relative overflow-hidden bg-gray-900/80 backdrop-blur-xl border border-gray-800 rounded-2xl p-2 shadow-2xl">
                 <ProfileCard />
               </div>
@@ -101,7 +114,7 @@ export default function Home() {
           <Section title="// TECH_ARSENAL" delay={0.2}>
             <div className="mb-8">
               <h3 className="text-white text-xl font-bold mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 bg-violet-500 rounded-full" />
+                <span className="w-2 h-2 bg-cyan-300 rounded-full" />
                 Languages
               </h3>
               <div className="flex flex-wrap gap-3">
@@ -160,7 +173,7 @@ export default function Home() {
                   id={project.id}
                   title={project.title}
                   description={project.summary}
-                  image={project.image ?? "/announcementWebsite.png"}
+                  image={project.image ?? "/announcementWebsite.webp"}
                   tags={project.tags}
                 />
               ))}
@@ -178,7 +191,7 @@ export default function Home() {
                     initial={false}
                     className={`group border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 ${
                       isOpen
-                        ? "bg-white/5 border-violet-500/30"
+                        ? "bg-white/5 border-cyan-300/30"
                         : "hover:bg-white/[0.02]"
                     }`}
                   >
@@ -191,8 +204,8 @@ export default function Home() {
                           <h3
                             className={`text-xl font-bold transition-colors ${
                               isOpen
-                                ? "text-violet-400"
-                                : "text-gray-100 group-hover:text-violet-300"
+                                ? "text-cyan-200"
+                                : "text-gray-100 group-hover:text-cyan-200"
                             }`}
                           >
                             {comp.title}
@@ -214,7 +227,7 @@ export default function Home() {
 
                       <div
                         className={`text-gray-500 transition-transform duration-300 ${
-                          isOpen ? "rotate-180 text-violet-500" : ""
+                          isOpen ? "rotate-180 text-cyan-300" : ""
                         }`}
                       >
                         <FaChevronDown />
@@ -237,7 +250,7 @@ export default function Home() {
                                   alt={comp.title}
                                   className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
                                 />
-                                <div className="absolute inset-0 bg-violet-900/20 mix-blend-overlay" />
+                                <div className="absolute inset-0 bg-cyan-900/20 mix-blend-overlay" />
                               </div>
 
                               <div className="flex-1">
@@ -247,7 +260,7 @@ export default function Home() {
 
                                 <Link
                                   to={`/project/${comp.projectId}`}
-                                  className="inline-flex items-center gap-2 text-sm font-bold text-violet-400 hover:text-white transition-colors group/btn"
+                                  className="inline-flex items-center gap-2 text-sm font-bold text-cyan-200 hover:text-white transition-colors group/btn"
                                 >
                                   <span>View Project Case Study</span>
                                   <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
@@ -265,11 +278,11 @@ export default function Home() {
           </Section>
 
           <Section title="// EDUCATION" delay={0.2}>
-            <div className="bg-gray-900/30 p-6 rounded-xl border-l-4 border-violet-500">
+            <div className="bg-gray-900/30 p-6 rounded-xl border-l-4 border-cyan-300">
               <h3 className="text-2xl font-bold text-gray-50">
                 {EDUCATION.school}
               </h3>
-              <p className="text-violet-400 font-mono mb-4">
+              <p className="text-cyan-200 font-mono mb-4">
                 {EDUCATION.degree} ({EDUCATION.graduation})
               </p>
               <p className="text-gray-400 text-lg">

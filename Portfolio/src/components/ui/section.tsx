@@ -16,7 +16,7 @@ export default function Section({ title, children, delay = 0 }: SectionProps) {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6, delay: delay, ease: "easeOut" }}
       >
-        <h2 className="text-violet-400 mb-8 text-4xl font-extrabold font-['JetBrains_Mono']">
+        <h2 className="text-cyan-200 mb-8 text-4xl font-extrabold font-['JetBrains_Mono']">
           {title}
         </h2>
       </motion.div>

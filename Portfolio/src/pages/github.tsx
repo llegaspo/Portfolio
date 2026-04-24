@@ -102,10 +102,9 @@ export default function Github() {
 
   if (loading)
     return (
-      <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-violet-400 font-mono gap-4 relative overflow-hidden">
-        {/* Loading Ambient Background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-violet-600/20 rounded-full blur-[100px]" />
-        <div className="w-8 h-8 border-4 border-violet-500 border-t-transparent rounded-full animate-spin z-10" />
+      <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-cyan-200 font-mono gap-4 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px]" />
+        <div className="w-8 h-8 border-4 border-cyan-300 border-t-transparent rounded-full animate-spin z-10" />
         <p className="z-10">Initializing Uplink to GitHub...</p>
       </div>
     );
@@ -129,10 +128,10 @@ export default function Github() {
     );
 
   return (
-    <div className="min-h-screen bg-[#050505] text-gray-200 selection:bg-violet-500/30 font-inter p-6 lg:p-12 relative overflow-hidden">
+    <div className="min-h-screen bg-[#050505] text-gray-200 selection:bg-cyan-300/25 font-inter p-6 lg:p-12 relative overflow-hidden">
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-violet-800/20 rounded-full blur-[128px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-fuchsia-800/10 rounded-full blur-[128px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-cyan-800/20 rounded-full blur-[128px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-sky-800/10 rounded-full blur-[128px]" />
       </div>
 
       <div className="relative z-10">
@@ -155,7 +154,7 @@ export default function Github() {
             >
               <div className="flex flex-col items-center text-center">
                 <div className="relative w-36 h-36 mb-6 group">
-                  <div className="absolute -inset-1 bg-gradient-to-tr from-violet-600 to-fuchsia-500 rounded-full blur opacity-60 group-hover:opacity-100 transition duration-500 animate-tilt"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-tr from-cyan-500 to-sky-500 rounded-full blur opacity-60 group-hover:opacity-100 transition duration-500 animate-tilt"></div>
                   <img
                     src={profile.avatarUrl}
                     alt={profile.name}
@@ -170,7 +169,7 @@ export default function Github() {
                   href={profile.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-violet-400 font-mono text-sm hover:text-violet-300 transition-colors mb-4 block"
+                  className="text-cyan-200 font-mono text-sm hover:text-cyan-100 transition-colors mb-4 block"
                 >
                   @{profile.login}
                 </a>
@@ -220,8 +219,8 @@ export default function Github() {
               <div className="flex justify-between items-end mb-6">
                 <h2 className="text-xl font-bold flex items-center gap-3 text-gray-200">
                   <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-violet-500"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-200 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-300"></span>
                   </span>
                   Contribution Graph
                 </h2>
@@ -230,7 +229,7 @@ export default function Github() {
                 </span>
               </div>
 
-              <div className="overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-violet-900 scrollbar-track-transparent">
+              <div className="overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-cyan-900 scrollbar-track-transparent">
                 <div className="flex gap-[3px]">
                   {calendar.weeks.map((week, i) => (
                     <div key={i} className="flex flex-col gap-[3px]">
@@ -258,7 +257,7 @@ export default function Github() {
 
             <div>
               <div className="flex items-baseline gap-4 mb-6">
-                <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
+                <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-sky-300">
                   Source Code
                 </h2>
                 <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent"></div>

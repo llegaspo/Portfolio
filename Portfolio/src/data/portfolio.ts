@@ -170,7 +170,7 @@ export const PROJECTS: FeaturedProject[] = [
       "The challenge was building a site that sold services clearly without feeling generic. I focused on responsive structure, direct calls to action, and implementation details that supported both SEO and conversions.",
     description:
       "iSupply SEO is a live client website I built from scratch around the agency's service model. The project required translating service content into a structured website that could rank, convert, and remain easy to update as the business evolved.",
-    image: "/isupplyseo.png",
+    image: "/isupplyseo.webp",
     liveUrl: "https://isupplyseo.com.au",
     domain: "isupplyseo.com.au",
     accent: "from-cyan-500/25 via-sky-500/10 to-transparent",
@@ -196,7 +196,7 @@ export const PROJECTS: FeaturedProject[] = [
       "The site needed practical improvements that supported SEO and lead capture without introducing plugin bloat. I used targeted custom work instead of layering on unnecessary tools.",
     description:
       "Scratch HQ is a live client site where I handled frontend refinement and custom functionality work. The focus was making the site cleaner, more reliable, and better aligned with search visibility and conversion goals.",
-    image: "/scratchHQ.png",
+    image: "/scratchHQ.webp",
     liveUrl: "https://scratchhq.au",
     domain: "scratchhq.au",
     accent: "from-amber-500/25 via-orange-500/10 to-transparent",
@@ -222,7 +222,7 @@ export const PROJECTS: FeaturedProject[] = [
       "The core challenge was keeping a motion-heavy experience polished without making the interface feel noisy or difficult to follow. The work centered on timing, clarity, and smoother transitions.",
     description:
       "Get Nifty is a brand-heavy website where I contributed frontend refinements focused on motion quality and page usability. My work improved scroll interactions, blog presentation, and the overall rhythm of the browsing experience.",
-    image: "/getNifty.png",
+    image: "/getNifty.webp",
     liveUrl: "https://getnifty.xyz",
     domain: "getnifty.xyz",
     accent: "from-emerald-500/25 via-lime-500/10 to-transparent",
@@ -248,9 +248,33 @@ export const PROJECTS: FeaturedProject[] = [
       "The main challenge was balancing clean user-facing presentation with coursework constraints and backend integration needs. I focused on making the interface clear and practical while supporting dynamic content.",
     description:
       "This coursework project was built to make school announcements easier to publish and easier to find. I worked on the frontend and part of the backend, helping shape a more usable announcement flow for campus updates.",
-    image: "/announcementWebsite.png",
+    image: "/announcementWebsite.webp",
     accent: "from-fuchsia-500/20 via-violet-500/10 to-transparent",
     category: "Case Study",
+    internalCaseStudy: true,
+  },
+  {
+    id: "eduroad",
+    title: "EduRoad",
+    subtitle: "Hackathon mobile app for personalized education pathways",
+    summary:
+      "Built during the Notion Hackathon at UP Cebu, combining Flutter frontend work with AI-driven and API-backed features for student guidance.",
+    date: "Notion Hackathon · UP Cebu",
+    role: "Team Lead + App Developer",
+    tags: ["Case Study", "Flutter", "AI", "Mobile App"],
+    techStack: ["Flutter", "Dart", "Android Studio", "REST APIs", "AI Features"],
+    features: [
+      "Mobile-first learning pathway experience",
+      "AI-assisted guidance and recommendation flows",
+      "API-backed educational content and interactions",
+    ],
+    challenges:
+      "The main challenge was combining AI and API-driven functionality inside a hackathon build without losing usability. The focus was on keeping the app practical, understandable, and responsive under time constraints.",
+    description:
+      "EduRoad was developed during the Notion Hackathon at UP Cebu as a mobile app that helps students navigate educational pathways more clearly. I worked on building the application in Flutter while integrating AI-oriented and API-backed functionality into the user flow.",
+    image: "/eduroad.webp",
+    accent: "from-sky-500/20 via-cyan-500/10 to-transparent",
+    category: "Competition Project",
     internalCaseStudy: true,
   },
   {
@@ -272,7 +296,7 @@ export const PROJECTS: FeaturedProject[] = [
       "The product needed to feel complete under tight hackathon constraints. The work focused on translating design quickly while keeping screens coherent and usable.",
     description:
       "PALengke was built during a hackathon focused on practical product delivery under time pressure. I helped turn Figma screens into a working frontend for a small-vendor marketplace concept.",
-    image: "/PALengke.png",
+    image: "/PALengke.webp",
     accent: "from-rose-500/20 via-orange-500/10 to-transparent",
     category: "Competition Project",
     internalCaseStudy: true,
@@ -296,7 +320,7 @@ export const PROJECTS: FeaturedProject[] = [
       "Panday needed to present a two-sided marketplace clearly in a short time frame. The challenge was making the flow understandable and credible enough for a startup competition audience.",
     description:
       "Panday was built for the Philippine Startup Challenge and reached the Top 25 finalists in Central Visayas. I contributed to shaping the platform's experience and improving how users move through the product.",
-    image: "/panday.png",
+    image: "/panday.webp",
     accent: "from-teal-500/20 via-cyan-500/10 to-transparent",
     category: "Competition Project",
     internalCaseStudy: true,

@@ -119,7 +119,7 @@ export const COMPETITIONS = [
     shortDesc: "Built a mobile app called EduRoad with Flutter.",
     fullDesc:
       "Led the development of 'EduRoad', a mobile application built with Flutter and Android Studio. We focused on integrating AI features and API functionalities to create personalized learning pathways for students.",
-    image: "/eduroad.png",
+    image: "/eduroad.webp",
     projectId: "eduroad",
   },
   {
@@ -130,7 +130,7 @@ export const COMPETITIONS = [
     shortDesc: "Created a React Native web app called PALengke.",
     fullDesc:
       "Developed 'PALengke' under strict time constraints. This experience honed my cross-platform development skills, delivering a functional React Native web application that digitizes local market transactions.",
-    image: "PALengke.png",
+    image: "PALengke.webp",
     projectId: "palengke",
   },
   {
@@ -153,7 +153,7 @@ export const COMPETITIONS = [
     shortDesc: "Developed 'Panday' connecting informal workers.",
     fullDesc:
       "Recognized as a Top 25 Finalist in Central Visayas. We developed 'Panday', a web application that connects homeowners with informal service workers (plumbers, masons), bridging the gap in the local gig economy.",
-    image: "panday.png",
+    image: "panday.webp",
     projectId: "panday",
   },
 ];

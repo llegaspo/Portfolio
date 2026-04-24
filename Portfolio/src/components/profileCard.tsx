@@ -4,10 +4,10 @@ import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 export default function ProfileCard() {
   return (
-    <div className="w-full pt-6 flex px-6 flex-col md:min-h-[85vh] bg-gray-800 rounded-3xl items-center shadow-2xl border border-gray-700">
+    <div className="w-full pt-6 flex px-6 flex-col md:min-h-[80vh] bg-gray-800 rounded-3xl items-center shadow-2xl border border-gray-700">
       <div className="relative w-[90%] h-[50%] bg-zinc-600 rounded-3xl overflow-hidden group">
         <img
-          src="/legaspo2-1.png"
+          src="/legaspo2-1.webp"
           alt="Profile"
           className="w-full h-full object-cover"
         />
@@ -32,14 +32,14 @@ export default function ProfileCard() {
       </div>
       <div className="flex items-center mt-2 gap-4 text-gray-50 font-inter justify-center">
         <div className="flex items-center gap-2">
-          <span className="text-violet-400 text-sm">&gt;</span>
-          <span className="text-violet-400 text-sm">
+          <span className="text-cyan-200 text-sm">&gt;</span>
+          <span className="text-cyan-200 text-sm">
             Contract Web Developer
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-violet-400 text-sm">&gt;</span>
-          <span className="text-violet-400 text-sm">
+          <span className="text-cyan-200 text-sm">&gt;</span>
+          <span className="text-cyan-200 text-sm">
             Frontend Developer
           </span>
         </div>

@@ -21,7 +21,7 @@ export default function ProjectCard({
     <Link to={`/project/${id}`} className="block h-full">
       <motion.div
         whileHover={{ y: -8 }}
-        className="group relative h-full bg-gray-900/40 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-violet-500/50 hover:shadow-2xl hover:shadow-violet-500/10 transition-all duration-300 flex flex-col"
+        className="group relative h-full bg-gray-900/40 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-300/50 hover:shadow-2xl hover:shadow-cyan-400/10 transition-all duration-300 flex flex-col"
       >
         <div className="relative h-48 overflow-hidden">
           <div className="absolute inset-0 bg-gray-900/20 group-hover:bg-transparent transition-all z-10" />
@@ -40,7 +40,7 @@ export default function ProjectCard({
         </div>
 
         <div className="p-6 flex flex-col flex-grow">
-          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-violet-300 transition-colors">
+          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-200 transition-colors">
             {title}
           </h3>
 
@@ -52,7 +52,7 @@ export default function ProjectCard({
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] uppercase tracking-wider font-mono bg-white/5 text-gray-300 px-3 py-1 rounded-full border border-white/5 group-hover:border-violet-500/30 transition-colors"
+                className="text-[10px] uppercase tracking-wider font-mono bg-white/5 text-gray-300 px-3 py-1 rounded-full border border-white/5 group-hover:border-cyan-300/30 transition-colors"
               >
                 {tag}
               </span>
