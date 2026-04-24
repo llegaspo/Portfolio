@@ -9,7 +9,7 @@ export default function ProfileCard() {
         <img
           src="/legaspo2-1.webp"
           alt="Profile"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-[center_18%]"
         />
         <div className="absolute top-3 right-3 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-emerald-500/30 flex items-center gap-2 shadow-lg">
           <span className="relative flex h-2 w-2">
