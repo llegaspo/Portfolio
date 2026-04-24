@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { getThemeColor } from "../utils/helper";
+import { fetchJson } from "../utils/api";
 import type { Repository } from "../components/github/repoCard";
 import RepoCard from "../components/github/repoCard";
 
@@ -39,8 +40,26 @@ export default function Github() {
   useEffect(() => {
     const fetchGithubData = async () => {
       try {
-        const response = await fetch(`/api/github?username=${username}`);
-        const data = await response.json();
+        const data = await fetchJson<{
+          error?: string;
+          errors?: unknown[];
+          data?: {
+            user: {
+              name: string;
+              login: string;
+              avatarUrl: string;
+              bio: string;
+              url: string;
+              followers: { totalCount: number };
+              following: { totalCount: number };
+              sourceRepos: { nodes: Repository[] };
+              forkRepos: { nodes: Repository[] };
+              contributionsCollection: {
+                contributionCalendar: Calendar;
+              };
+            };
+          };
+        }>(`/api/github?username=${username}`);
 
         if (data.error) {
           throw new Error(data.error);
@@ -51,6 +70,10 @@ export default function Github() {
           setError("GitHub API Error. Check console for details.");
           setLoading(false);
           return;
+        }
+
+        if (!data.data?.user) {
+          throw new Error("GitHub API returned an unexpected response.");
         }
 
         const userData = data.data.user;

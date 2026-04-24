@@ -1,15 +1,16 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import {
-  FaPaperPlane,
-  FaEnvelope,
-  FaCopy,
-  FaCheckCircle,
   FaArrowRight,
+  FaCheckCircle,
+  FaCopy,
+  FaEnvelope,
   FaMapMarkerAlt,
+  FaPaperPlane,
 } from "react-icons/fa";
+import { PROFILE } from "../data/portfolio";
 
 export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -20,7 +21,7 @@ export default function Contact() {
   const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
   const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
   const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-  const MY_EMAIL = "jed.lordy123@gmail.com";
+  const MY_EMAIL = PROFILE.email;
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,101 +54,100 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-gray-200 selection:bg-violet-500/30 font-inter p-6 lg:p-12 relative overflow-hidden flex flex-col items-center">
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-violet-800/20 rounded-full blur-[128px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-800/10 rounded-full blur-[128px]" />
+    <div className="relative flex min-h-screen flex-col items-center overflow-hidden bg-[#07111f] p-6 text-slate-200 selection:bg-cyan-300/25 lg:p-12">
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="absolute left-[-10%] top-[-10%] h-[500px] w-[500px] rounded-full bg-cyan-400/15 blur-[128px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-amber-300/10 blur-[128px]" />
       </div>
 
-      <div className="relative z-10 w-full max-w-5xl flex flex-col">
+      <div className="relative z-10 flex w-full max-w-5xl flex-col">
         <div className="mb-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors group px-4 py-2 rounded-lg hover:bg-white/5 w-fit"
+            className="group inline-flex w-fit items-center gap-2 rounded-lg px-4 py-2 text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
           >
-            <span className="group-hover:-translate-x-1 transition-transform">
+            <span className="transition-transform group-hover:-translate-x-1">
               ←
             </span>
-            Return to Base
+            Return Home
           </Link>
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full grid grid-cols-1 md:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-gray-900/60 backdrop-blur-xl"
+          className="grid w-full grid-cols-1 gap-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl md:grid-cols-2"
         >
-          <div className="p-8 md:p-12 relative">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-500 to-transparent"></div>
+          <div className="relative p-8 md:p-12">
+            <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-cyan-300 to-transparent" />
 
-            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 mb-2 flex items-center gap-3">
-              <FaPaperPlane className="text-violet-400 text-xl" /> Send a
-              Message
+            <h2 className="mb-2 flex items-center gap-3 text-3xl font-semibold text-white">
+              <FaPaperPlane className="text-xl text-cyan-200" /> Send a Message
             </h2>
-            <p className="text-gray-400 text-sm mb-8 leading-relaxed">
-              Have a project in mind or just want to say hello? Use the form
-              below to send a signal directly to my inbox.
+            <p className="mb-8 text-sm leading-relaxed text-slate-400">
+              If you need a contract web developer for responsive fixes, site
+              builds, UI cleanup, or CMS customization, send the brief here.
             </p>
 
             <form ref={formRef} onSubmit={handleSend} className="space-y-5">
               <div className="grid grid-cols-1 gap-5">
                 <div>
-                  <label className="block text-xs font-mono text-violet-300/80 uppercase mb-2 ml-1">
+                  <label className="mb-2 ml-1 block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200/80">
                     Your Name
                   </label>
                   <input
                     type="text"
                     name="user_name"
                     required
-                    className="w-full bg-[#0a0a0a]/50 border border-white/10 rounded-xl p-4 text-white focus:border-violet-500/50 focus:bg-violet-500/5 focus:ring-0 transition-all outline-none placeholder:text-gray-600"
+                    className="w-full rounded-xl border border-white/10 bg-[#0a0f18]/60 p-4 text-white outline-none transition-all placeholder:text-slate-600 focus:border-cyan-300/50 focus:bg-cyan-300/5 focus:ring-0"
                     placeholder="John Doe"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-violet-300/80 uppercase mb-2 ml-1">
+                  <label className="mb-2 ml-1 block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200/80">
                     Your Email
                   </label>
                   <input
                     type="email"
                     name="user_email"
                     required
-                    className="w-full bg-[#0a0a0a]/50 border border-white/10 rounded-xl p-4 text-white focus:border-violet-500/50 focus:bg-violet-500/5 focus:ring-0 transition-all outline-none placeholder:text-gray-600"
+                    className="w-full rounded-xl border border-white/10 bg-[#0a0f18]/60 p-4 text-white outline-none transition-all placeholder:text-slate-600 focus:border-cyan-300/50 focus:bg-cyan-300/5 focus:ring-0"
                     placeholder="john@example.com"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-violet-300/80 uppercase mb-2 ml-1">
+                <label className="mb-2 ml-1 block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200/80">
                   Subject
                 </label>
                 <input
                   type="text"
                   name="subject"
                   required
-                  className="w-full bg-[#0a0a0a]/50 border border-white/10 rounded-xl p-4 text-white focus:border-violet-500/50 focus:bg-violet-500/5 focus:ring-0 transition-all outline-none placeholder:text-gray-600"
-                  placeholder="Project Inquiry"
+                  className="w-full rounded-xl border border-white/10 bg-[#0a0f18]/60 p-4 text-white outline-none transition-all placeholder:text-slate-600 focus:border-cyan-300/50 focus:bg-cyan-300/5 focus:ring-0"
+                  placeholder="Project brief"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-violet-300/80 uppercase mb-2 ml-1">
+                <label className="mb-2 ml-1 block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200/80">
                   Message
                 </label>
                 <textarea
                   name="message"
                   required
                   rows={4}
-                  className="w-full bg-[#0a0a0a]/50 border border-white/10 rounded-xl p-4 text-white focus:border-violet-500/50 focus:bg-violet-500/5 focus:ring-0 transition-all outline-none resize-none placeholder:text-gray-600"
-                  placeholder="How can I help you?"
+                  className="w-full resize-none rounded-xl border border-white/10 bg-[#0a0f18]/60 p-4 text-white outline-none transition-all placeholder:text-slate-600 focus:border-cyan-300/50 focus:bg-cyan-300/5 focus:ring-0"
+                  placeholder="Tell me what needs to be built, fixed, or improved."
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-violet-600 to-violet-700 hover:from-violet-500 hover:to-violet-600 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-violet-500/20 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-300 py-4 font-semibold text-slate-950 transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {loading ? "Sending..." : "Transmit Message"}
               </button>
@@ -156,7 +156,7 @@ export default function Contact() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-emerald-400 text-sm text-center font-bold flex items-center justify-center gap-2 bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3 text-center text-sm font-bold text-emerald-400"
                 >
                   <FaCheckCircle /> Sent successfully!
                 </motion.div>
@@ -165,7 +165,7 @@ export default function Contact() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-red-400 text-sm text-center font-bold bg-red-500/10 border border-red-500/20 p-3 rounded-xl"
+                  className="rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-center text-sm font-bold text-red-400"
                 >
                   Error sending. Please check console.
                 </motion.div>
@@ -173,33 +173,33 @@ export default function Contact() {
             </form>
           </div>
 
-          <div className="bg-[#0a0a0a]/40 p-8 md:p-12 flex flex-col justify-center border-l border-white/5 relative backdrop-blur-sm">
+          <div className="relative flex flex-col justify-center border-l border-white/5 bg-[#0a0f18]/50 p-8 backdrop-blur-sm md:p-12">
             <div className="mb-10">
-              <h2 className="text-2xl font-bold text-white mb-4">
+              <h2 className="mb-4 text-2xl font-semibold text-white">
                 Prefer manual transmission?
               </h2>
-              <p className="text-gray-400 leading-relaxed">
-                No problem. You can copy my address or open your default mail
-                client directly.
+              <p className="leading-relaxed text-slate-400">
+                You can also reach out directly if that is faster for your
+                workflow.
               </p>
             </div>
 
             <div className="space-y-6">
               <div className="group relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-600 to-emerald-600 rounded-2xl opacity-30 blur group-hover:opacity-75 transition duration-500"></div>
+                <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-cyan-400 to-amber-300 opacity-30 blur transition duration-500 group-hover:opacity-75" />
                 <button
                   onClick={handleCopyEmail}
-                  className="relative w-full bg-[#0F0F0F] hover:bg-gray-900 p-5 rounded-xl flex items-center justify-between border border-white/10 group-hover:border-white/20 transition-all text-left"
+                  className="relative flex w-full items-center justify-between rounded-xl border border-white/10 bg-[#0F1723] p-5 text-left transition-all hover:bg-slate-900 group-hover:border-white/20"
                 >
                   <div>
-                    <p className="text-xs text-violet-400 font-mono uppercase tracking-wider mb-2">
+                    <p className="mb-2 text-xs uppercase tracking-[0.2em] text-cyan-200">
                       My Email Address
                     </p>
-                    <p className="text-white font-bold text-lg md:text-xl truncate pr-4">
+                    <p className="truncate pr-4 text-lg font-semibold text-white md:text-xl">
                       {MY_EMAIL}
                     </p>
                   </div>
-                  <div className="text-gray-500 group-hover:text-emerald-400 transition-colors">
+                  <div className="text-slate-500 transition-colors group-hover:text-emerald-300">
                     {copied ? (
                       <FaCheckCircle className="text-xl" />
                     ) : (
@@ -211,19 +211,19 @@ export default function Contact() {
 
               <a
                 href={`mailto:${MY_EMAIL}`}
-                className="block w-full text-center py-4 rounded-xl border border-white/10 text-gray-300 hover:text-white hover:bg-white/5 hover:border-white/20 transition-all flex items-center justify-center gap-2 group"
+                className="group flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 py-4 text-center text-slate-300 transition-all hover:border-white/20 hover:bg-white/5 hover:text-white"
               >
                 <FaEnvelope /> Open in Mail App{" "}
-                <FaArrowRight className="text-xs opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                <FaArrowRight className="text-xs opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100" />
               </a>
             </div>
 
             <div className="mt-auto pt-10">
-              <div className="flex items-center justify-center gap-2 text-gray-500 text-sm">
-                <FaMapMarkerAlt className="text-violet-500" />
-                <span>Based in Cebu City, Philippines</span>
+              <div className="flex items-center justify-center gap-2 text-sm text-slate-500">
+                <FaMapMarkerAlt className="text-cyan-200" />
+                <span>{PROFILE.location}</span>
               </div>
-              <p className="text-gray-600 text-xs text-center mt-2 font-mono">
+              <p className="mt-2 text-center text-xs text-slate-600">
                 Response time: ~24 hours
               </p>
             </div>

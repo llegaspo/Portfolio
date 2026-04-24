@@ -1,154 +1,70 @@
-import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
-  FaGithub,
-  FaExternalLinkAlt,
-  FaCalendarAlt,
-  FaTools,
-  FaLightbulb,
-  FaLayerGroup,
   FaArrowLeft,
+  FaCalendarAlt,
+  FaExternalLinkAlt,
+  FaGithub,
+  FaLayerGroup,
+  FaLightbulb,
+  FaTools,
 } from "react-icons/fa";
+import { PROJECTS } from "../data/portfolio";
 
-const slugify = (text: string) => {
-  return text
+const slugify = (text: string) =>
+  text
     .toString()
     .toLowerCase()
     .trim()
     .replace(/\s+/g, "-")
     .replace(/[^\w-]+/g, "")
     .replace(/--+/g, "-");
-};
-
-type Record = {
-  _id?: string; // MongoDB auto-generates this
-  id: string; // Your custom string ID (e.g., "school-announcements")
-  title: string;
-  subtitle: string;
-  date: string;
-  heroImage: string;
-  description: string;
-  features: string[];
-  challenges: string;
-  techStack: string[];
-  githubUrl?: string;
-  liveUrl?: string;
-};
 
 export default function ProjectDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const project = PROJECTS.find((entry) => slugify(entry.id) === id);
 
-  const [project, setProject] = useState<Record | null>(null);
-  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [id]);
 
   const { scrollY } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const heroScale = useTransform(scrollY, [0, 300], [1, 1.1]);
-
-  useEffect(() => {
-    const fetchProjectData = async () => {
-      if (!id) return;
-
-      try {
-        setLoading(true);
-        const response = await fetch("/api/projects");
-        console.log("Project res", response);
-        const data = await response.json();
-
-        if (Array.isArray(data)) {
-          const found = data.find((p: Record) => slugify(p.id) === id);
-          setProject(found || null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch project details:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjectData();
-  }, [id]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#020204] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-violet-500/30 border-t-violet-500 rounded-full animate-spin" />
-          <p className="text-gray-400 font-mono text-sm animate-pulse">
-            INITIALIZING_UPLINK...
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const heroScale = useTransform(scrollY, [0, 300], [1, 1.08]);
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#020204] flex flex-col items-center justify-center text-center p-6 relative overflow-hidden font-inter">
-        <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-violet-900/20 rounded-full blur-[120px] animate-pulse" />
-        <h1 className="text-4xl font-bold text-white mb-4 relative z-10">
-          Project Not Found
-        </h1>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#07111f] p-6 text-center text-slate-100">
+        <h1 className="text-4xl font-semibold text-white">Project Not Found</h1>
+        <p className="mt-4 max-w-xl text-lg leading-8 text-slate-300">
+          This case study is either unavailable or meant to link directly to a
+          live site.
+        </p>
         <Link
           to="/"
-          className="relative z-10 inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors group px-6 py-3 rounded-lg border border-white/10 hover:bg-white/5 font-mono"
+          className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 font-medium text-white hover:bg-white/10"
         >
-          <span className="group-hover:-translate-x-1 transition-transform">
-            ←
-          </span>
-          RETURN_TO_BASE
+          Return Home
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#020204] text-gray-200 font-inter selection:bg-violet-500/30 pb-24 relative overflow-x-hidden">
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,_var(--tw-gradient-stops))] from-[#0a0a0a] via-[#020204] to-black" />
-
-        <div className="absolute inset-0 bg-gradient-to-tr from-violet-950/20 via-transparent to-emerald-950/20 mix-blend-soft-light" />
-        <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black to-transparent opacity-70" />
-
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.5, 0.3],
-            x: [0, 50, 0],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[-10%] right-[-5%] w-[700px] h-[700px] bg-gradient-to-br from-violet-600/30 to-fuchsia-800/20 rounded-full blur-[128px]"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2],
-            x: [0, -50, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[10%] left-[-10%] w-[600px] h-[600px] bg-gradient-to-tr from-emerald-600/20 to-cyan-800/20 rounded-full blur-[128px]"
-        />
-
-        <div className="absolute inset-0 bg-noise opacity-[0.04] mix-blend-overlay" />
-      </div>
+    <div className="min-h-screen overflow-x-hidden bg-[#07111f] pb-24 text-slate-100">
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(245,158,11,0.12),transparent_26%),linear-gradient(180deg,#07111f,#0f172a)]" />
 
       <div className="relative z-10">
-        <div className="relative h-[60vh] md:h-[75vh] w-full overflow-hidden">
-          <div className="absolute top-8 left-6 lg:left-12 z-30">
+        <div className="relative h-[58vh] overflow-hidden border-b border-white/10">
+          <div className="absolute left-6 top-8 z-30 lg:left-12">
             <button
               onClick={() => navigate(-1)}
-              className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors group px-4 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/20 hover:bg-black/50"
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-slate-950/45 px-4 py-2 text-white backdrop-blur-md transition-colors hover:bg-slate-950/70"
             >
-              <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" />
-              <span className="text-xs font-bold tracking-widest uppercase">
+              <FaArrowLeft />
+              <span className="text-xs font-semibold uppercase tracking-[0.22em]">
                 Back
               </span>
             </button>
@@ -156,59 +72,51 @@ export default function ProjectDetails() {
 
           <motion.div
             style={{ scale: heroScale, opacity: heroOpacity }}
-            className="absolute inset-0 w-full h-full"
+            className="absolute inset-0"
           >
-            <img
-              src={project.heroImage}
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020204] via-[#020204]/70 to-transparent" />
+            {project.image ? (
+              <img
+                src={project.image}
+                alt={project.title}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="h-full w-full bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.3),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(245,158,11,0.24),transparent_24%),linear-gradient(180deg,#07111f,#111827)]" />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#07111f] via-[#07111f]/60 to-transparent" />
           </motion.div>
 
-          <div className="absolute bottom-0 left-0 w-full p-6 lg:p-12 z-20 max-w-6xl mx-auto">
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-block px-3 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 backdrop-blur-md text-violet-300 font-mono text-xs uppercase tracking-wider mb-4"
-            >
-              Project Case Study
-            </motion.div>
-            <motion.h1
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              className="text-4xl md:text-7xl font-extrabold text-white tracking-tight leading-tight mb-4 drop-shadow-lg"
-            >
-              {project.title}
-            </motion.h1>
-            <motion.p
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="text-xl text-gray-200 max-w-2xl font-light leading-relaxed drop-shadow-md"
-            >
-              {project.subtitle}
-            </motion.p>
+          <div className="absolute bottom-0 left-0 w-full px-6 pb-12 lg:px-12">
+            <div className="mx-auto max-w-6xl">
+              <span className="inline-block rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-100">
+                {project.category}
+              </span>
+              <h1 className="mt-5 text-5xl font-semibold leading-none tracking-tight text-white md:text-7xl">
+                {project.title}
+              </h1>
+              <p className="mt-4 max-w-3xl text-xl leading-8 text-slate-200">
+                {project.subtitle}
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto px-6 lg:px-12 pt-20 grid grid-cols-1 lg:grid-cols-3 gap-12">
-          <div className="lg:col-span-2 space-y-16">
-            <div className="flex flex-wrap gap-4 pb-10 border-b border-white/10">
+        <div className="mx-auto grid max-w-6xl gap-12 px-6 pt-16 lg:grid-cols-3 lg:px-12">
+          <div className="space-y-14 lg:col-span-2">
+            <div className="flex flex-wrap gap-4 border-b border-white/10 pb-10">
               {project.githubUrl && (
                 <a
                   href={project.githubUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-3 px-6 py-4 bg-[#0a0a0a] border border-white/10 rounded-2xl hover:border-violet-500/50 hover:bg-white/5 transition-all group"
+                  className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 transition-colors hover:bg-white/10"
                 >
-                  <FaGithub className="text-xl text-gray-400 group-hover:text-white transition-colors" />
+                  <FaGithub className="text-lg text-slate-200" />
                   <div>
-                    <span className="block text-xs text-gray-500 font-mono uppercase tracking-wider mb-1">
+                    <span className="block text-xs uppercase tracking-[0.18em] text-slate-500">
                       Repository
                     </span>
-                    <span className="block text-sm font-bold text-gray-200 group-hover:text-white">
+                    <span className="block font-medium text-white">
                       View Source Code
                     </span>
                   </div>
@@ -219,97 +127,98 @@ export default function ProjectDetails() {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-violet-700 to-indigo-700 text-white rounded-2xl hover:from-violet-600 hover:to-indigo-600 shadow-lg shadow-violet-900/30 transition-all hover:-translate-y-0.5"
+                  className="flex items-center gap-3 rounded-2xl bg-cyan-300 px-6 py-4 text-slate-950 transition-transform hover:-translate-y-0.5"
                 >
-                  <FaExternalLinkAlt className="text-xl" />
+                  <FaExternalLinkAlt className="text-lg" />
                   <div>
-                    <span className="block text-xs text-violet-200 font-mono uppercase tracking-wider mb-1">
-                      Deployment
+                    <span className="block text-xs uppercase tracking-[0.18em] text-slate-700">
+                      Live Site
                     </span>
-                    <span className="block text-sm font-bold">
-                      Launch Live Demo
-                    </span>
+                    <span className="block font-semibold">Visit Project</span>
                   </div>
                 </a>
               )}
             </div>
 
             <section>
-              <h2 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-                <FaLayerGroup className="text-violet-500" /> The Overview
+              <h2 className="mb-8 flex items-center gap-3 text-3xl font-semibold text-white">
+                <FaLayerGroup className="text-cyan-200" />
+                Overview
               </h2>
-              <p className="text-gray-300 leading-relaxed text-lg font-light whitespace-pre-line">
+              <p className="text-lg leading-8 text-slate-300">
                 {project.description}
               </p>
             </section>
 
-            <section className="relative overflow-hidden bg-gradient-to-br from-white/[0.03] to-transparent border border-white/10 p-8 rounded-3xl backdrop-blur-md shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
-              <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-violet-500/10 to-transparent opacity-50 pointer-events-none" />
-
-              <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2 relative z-10">
-                Key Capabilities
+            <section className="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
+              <h2 className="mb-8 text-2xl font-semibold text-white">
+                Key Contributions
               </h2>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 relative z-10">
-                {project.features.map((feature, idx) => (
+              <ul className="grid gap-5 md:grid-cols-2">
+                {project.features.map((feature) => (
                   <li
-                    key={idx}
-                    className="flex items-start gap-4 text-gray-300 group transition-colors"
+                    key={feature}
+                    className="flex items-start gap-4 rounded-2xl border border-white/10 bg-slate-950/35 p-4 text-slate-300"
                   >
-                    <div className="w-8 h-8 rounded-full bg-violet-500/20 flex items-center justify-center flex-shrink-0 border border-violet-500/30 group-hover:bg-violet-500 group-hover:text-white transition-all">
-                      <span className="w-2 h-2 rounded-full bg-violet-400 group-hover:bg-white transition-all"></span>
-                    </div>
-                    <span className="leading-relaxed pt-1">{feature}</span>
+                    <span className="mt-2 h-2 w-2 rounded-full bg-cyan-300" />
+                    <span className="leading-7">{feature}</span>
                   </li>
                 ))}
               </ul>
             </section>
 
-            <section className="bg-gradient-to-br from-amber-900/10 to-transparent border border-amber-500/10 p-8 rounded-3xl backdrop-blur-sm relative overflow-hidden">
-              <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-amber-500/20 blur-[100px] rounded-full pointer-events-none"></div>
-              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3 relative z-10">
-                <FaLightbulb className="text-amber-500" /> Challenges & Insights
+            <section className="rounded-[2rem] border border-amber-300/20 bg-amber-300/5 p-8 backdrop-blur-xl">
+              <h2 className="mb-6 flex items-center gap-3 text-2xl font-semibold text-white">
+                <FaLightbulb className="text-amber-200" />
+                Challenges And Insights
               </h2>
-              <div className="relative z-10 pl-6 border-l-2 border-amber-500/30">
-                <p className="text-gray-300 italic text-lg leading-relaxed">
-                  "{project.challenges}"
-                </p>
-              </div>
+              <p className="border-l-2 border-amber-200/30 pl-5 text-lg italic leading-8 text-slate-200">
+                {project.challenges}
+              </p>
             </section>
           </div>
 
           <div className="space-y-8">
-            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl sticky top-8 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-r from-transparent via-violet-500/50 to-transparent opacity-70" />
-
-              <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
-                <FaTools className="text-violet-400" /> Technologies
+            <div className="sticky top-8 rounded-[2rem] border border-white/10 bg-slate-950/70 p-8 shadow-[0_24px_80px_rgba(3,10,24,0.35)] backdrop-blur-2xl">
+              <h3 className="mb-8 flex items-center gap-3 text-xl font-semibold text-white">
+                <FaTools className="text-cyan-200" />
+                Stack
               </h3>
               <div className="flex flex-wrap gap-3">
                 {project.techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm font-medium text-gray-300 hover:border-violet-500/50 hover:bg-violet-600/20 hover:text-white transition-all cursor-default shadow-sm"
+                    className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
 
-              <div className="mt-10 pt-8 border-t border-white/10">
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4 font-mono">
-                  Development Timeline
+              <div className="mt-10 border-t border-white/10 pt-8">
+                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  Timeline
                 </h3>
-                <div className="flex items-center gap-4 text-gray-200 bg-white/5 p-4 rounded-2xl border border-white/5">
-                  <div className="w-10 h-10 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400">
+                <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-300/10 text-cyan-100">
                     <FaCalendarAlt />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">In Progress</p>
-                    <p className="font-bold text-lg tracking-tight">
-                      {project.date}
+                    <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                      Project Window
                     </p>
+                    <p className="mt-1 font-medium text-white">{project.date}</p>
                   </div>
                 </div>
+              </div>
+
+              <div className="mt-8 border-t border-white/10 pt-8">
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  Role
+                </h3>
+                <p className="text-base leading-7 text-slate-300">
+                  {project.role}
+                </p>
               </div>
             </div>
           </div>

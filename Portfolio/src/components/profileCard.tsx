@@ -4,7 +4,7 @@ import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 export default function ProfileCard() {
   return (
-    <div className="pt-6 flex px-6 flex-col md:w-[30vw] md:h-[85vh] bg-gray-800 rounded-3xl items-center shadow-2xl border border-gray-700">
+    <div className="w-full pt-6 flex px-6 flex-col md:min-h-[85vh] bg-gray-800 rounded-3xl items-center shadow-2xl border border-gray-700">
       <div className="relative w-[90%] h-[50%] bg-zinc-600 rounded-3xl overflow-hidden group">
         <img
           src="/legaspo2-1.png"
@@ -33,29 +33,33 @@ export default function ProfileCard() {
       <div className="flex items-center mt-2 gap-4 text-gray-50 font-inter justify-center">
         <div className="flex items-center gap-2">
           <span className="text-violet-400 text-sm">&gt;</span>
-          <span className="text-violet-400 text-sm">Full Stack Developer</span>
+          <span className="text-violet-400 text-sm">
+            Contract Web Developer
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-violet-400 text-sm">&gt;</span>
-          <span className="text-violet-400 text-sm">Technical Lead</span>
+          <span className="text-violet-400 text-sm">
+            Frontend Developer
+          </span>
         </div>
       </div>
 
       <div className="h-4" />
 
       <p className="text-gray-400 text-sm text-center px-4 leading-relaxed">
-        Building type-safe, scalable web architectures and AI-integrated
-        backends. DOST Scholar @ UP Cebu. 1.36 Running GPA.
+        I build responsive websites, frontend systems, and practical client
+        work that ships cleanly across desktop, tablet, and mobile.
       </p>
 
       <div className="h-4" />
 
       <div className="flex flex-wrap justify-center gap-2 w-full px-2">
+        <Chip text="Responsive UI" />
         <Chip text="TypeScript" />
         <Chip text="React" />
-        <Chip text="C++" />
-        <Chip text="PostgreSQL" />
-        <Chip text="Firebase" />
+        <Chip text="WordPress" />
+        <Chip text="SEO" />
       </div>
 
       <div className="flex-1" />
@@ -71,7 +75,7 @@ export default function ProfileCard() {
           </Link>
 
           <a
-            href="linkedin.com/in/jed-lordy-legaspo-9a55041a0"
+            href="https://linkedin.com/in/jed-lordy-legaspo-9a55041a0"
             target="_blank"
             rel="noreferrer"
             className="text-gray-400 hover:text-[#0077b5] hover:scale-110 transition-all duration-300"
