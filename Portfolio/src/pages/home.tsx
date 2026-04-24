@@ -154,13 +154,14 @@ export default function Home() {
           </Section>
 
           <Section title="// EXPERIENCE" delay={0.2}>
-            {EXPERIENCES.map((experience) => (
+            {EXPERIENCES.map((experience, index) => (
               <ExperienceItem
                 key={`${experience.role}-${experience.period}`}
                 role={experience.role}
                 company={experience.company}
                 date={experience.period}
                 items={experience.bullets}
+                isLast={index === EXPERIENCES.length - 1}
               />
             ))}
           </Section>
