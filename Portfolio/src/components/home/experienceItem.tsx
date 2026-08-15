@@ -1,29 +1,27 @@
 import { Fragment, type ReactNode } from "react";
-import { motion } from "framer-motion";
 
-const DOMAIN_REGEX =
-  /\b(?:https?:\/\/)?(?:www\.)?(?:[a-z0-9-]+\.)+[a-z]{2,}(?:\/[^\s]*)?/gi;
-
-const SITE_PREVIEWS: Record<
-  string,
-  { title: string; image: string; label: string }
-> = {
-  "isupplyseo.com.au": {
-    title: "iSupply SEO",
-    image: "/isupplyseo.webp",
-    label: "Live client website",
+const SITE_PREVIEWS: Record<string, { title: string; image: string }> = {
+  "isupplyseo.com.au": { title: "iSupply SEO", image: "/isupplyseo.webp" },
+  "isupplyelectrical.com.au": {
+    title: "iSupply Electrical",
+    image: "/isupplyelectrical.webp",
   },
-  "scratchhq.au": {
-    title: "Scratch HQ",
-    image: "/scratchHQ.webp",
-    label: "Live client website",
-  },
-  "getnifty.xyz": {
-    title: "Get Nifty",
-    image: "/getNifty.webp",
-    label: "Live client website",
-  },
+  "scratchhq.au": { title: "Scratch HQ", image: "/scratchHQ.webp" },
+  "bigliftcrane.com.au": { title: "Big Lift Crane", image: "/bigliftcrane.webp" },
+  "getnifty.xyz": { title: "Get Nifty", image: "/getNifty.webp" },
 };
+
+const escapeRegex = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// Built from the known-site list rather than a generic domain pattern — a
+// generic one also swallows library names like "Next.js" and turns them into
+// dead links.
+const DOMAIN_REGEX = new RegExp(
+  `\\b(?:https?://)?(?:www\\.)?(?:${Object.keys(SITE_PREVIEWS)
+    .map(escapeRegex)
+    .join("|")})(?:/[^\\s]*)?`,
+  "gi",
+);
 
 const normalizeUrl = (value: string) =>
   value
@@ -32,11 +30,6 @@ const normalizeUrl = (value: string) =>
     .replace(/[),.;:!?]+$/, "")
     .replace(/\/$/, "");
 
-const toHref = (value: string) =>
-  value.startsWith("http://") || value.startsWith("https://")
-    ? value
-    : `https://${value}`;
-
 function WebsiteLink({ value }: { value: string }) {
   const normalized = normalizeUrl(value);
   const preview = SITE_PREVIEWS[normalized];
@@ -44,31 +37,23 @@ function WebsiteLink({ value }: { value: string }) {
   return (
     <span className="group relative inline-flex">
       <a
-        href={toHref(value)}
+        href={`https://${normalized}`}
         target="_blank"
         rel="noreferrer"
-        className="font-medium text-cyan-200 underline decoration-cyan-400/60 underline-offset-4 transition-colors hover:text-white"
+        className="text-accent-300 underline decoration-accent-400/40 underline-offset-4 transition-colors hover:text-white"
       >
         {normalized}
       </a>
 
       {preview && (
-        <span className="pointer-events-none absolute left-0 top-full z-30 mt-3 hidden w-64 overflow-hidden rounded-2xl border border-cyan-300/20 bg-gray-950/95 shadow-2xl shadow-black/50 transition-all duration-200 group-hover:block group-focus-within:block">
+        <span className="pointer-events-none absolute left-0 top-full z-30 mt-2 hidden w-56 overflow-hidden rounded-lg border border-white/12 bg-ink-950 group-hover:block">
           <img
             src={preview.image}
             alt={preview.title}
-            className="h-32 w-full object-cover"
+            className="h-28 w-full border-b border-white/8 object-cover object-top"
           />
-          <span className="block border-t border-white/10 p-3">
-            <span className="block text-xs font-mono uppercase tracking-[0.18em] text-cyan-200">
-              {preview.label}
-            </span>
-            <span className="mt-1 block text-sm font-semibold text-white">
-              {preview.title}
-            </span>
-            <span className="mt-1 block text-xs text-gray-400">
-              {normalized}
-            </span>
+          <span className="block px-3 py-2 font-mono text-[11px] text-slate-400">
+            {normalized}
           </span>
         </span>
       )}
@@ -78,10 +63,7 @@ function WebsiteLink({ value }: { value: string }) {
 
 function renderItemText(text: string) {
   const matches = Array.from(text.matchAll(DOMAIN_REGEX));
-
-  if (matches.length === 0) {
-    return text;
-  }
+  if (matches.length === 0) return text;
 
   const parts: Array<string | ReactNode> = [];
   let lastIndex = 0;
@@ -90,96 +72,72 @@ function renderItemText(text: string) {
     const found = match[0];
     const start = match.index ?? 0;
 
-    if (start > lastIndex) {
-      parts.push(text.slice(lastIndex, start));
-    }
-
+    if (start > lastIndex) parts.push(text.slice(lastIndex, start));
     parts.push(<WebsiteLink key={`${found}-${index}`} value={found} />);
     lastIndex = start + found.length;
   });
 
-  if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
-  }
+  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
 
   return parts.map((part, index) =>
-    typeof part === "string" ? (
-      <Fragment key={index}>{part}</Fragment>
-    ) : (
-      part
-    ),
+    typeof part === "string" ? <Fragment key={index}>{part}</Fragment> : part,
   );
 }
 
 export default function ExperienceItem({
   role,
+  company,
+  monogram,
   date,
   items,
-  company,
+  stack,
+  roleAsHeading = false,
   isLast = false,
 }: {
   role: string;
+  company?: string;
+  monogram: string;
   date: string;
   items: string[];
-  company?: string;
+  stack?: string[];
+  roleAsHeading?: boolean;
   isLast?: boolean;
 }) {
+  const heading = roleAsHeading ? role : (company ?? role);
+  const subheading = roleAsHeading ? company : company && role;
   return (
-    <div className={`relative pl-10 ${isLast ? "" : "pb-12"}`}>
-      <div className="absolute left-0 top-1 flex h-full w-5 justify-center">
-        {!isLast ? (
-          <>
-            <div className="absolute top-5 -bottom-4 w-px bg-white/8" />
-            <motion.div
-              initial={{ scaleY: 0, opacity: 0.4 }}
-              whileInView={{ scaleY: 1, opacity: 1 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-              className="absolute top-5 -bottom-4 w-px origin-top bg-gradient-to-b from-cyan-200 via-cyan-300 to-cyan-500 shadow-[0_0_12px_rgba(103,232,249,0.45)]"
-            />
-          </>
-        ) : null}
-
-        <motion.div
-          initial={{ scale: 0.85, opacity: 0.7 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: true, amount: 0.45 }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
-          className="relative z-10 mt-1 flex h-5 w-5 items-center justify-center rounded-full border border-cyan-200/60 bg-gray-900"
-        >
-          <motion.div
-            initial={{ scale: 0.3, opacity: 0.35 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true, amount: 0.45 }}
-            transition={{ duration: 0.45, delay: 0.12, ease: "easeOut" }}
-            className="absolute h-2.5 w-2.5 rounded-full bg-cyan-300 shadow-[0_0_14px_rgba(103,232,249,0.8)]"
-          />
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.45 }}
-            transition={{ duration: 0.35, delay: 0.08 }}
-            className="absolute h-5 w-5 rounded-full bg-cyan-300/18 blur-[4px]"
-          />
-        </motion.div>
+    <div className={`relative flex gap-5 ${isLast ? "" : "pb-10"}`}>
+      {/* Monogram marker + connecting rail */}
+      <div className="flex flex-col items-center">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/12 bg-ink-900 font-mono text-[11px] font-medium text-accent-300">
+          {monogram}
+        </span>
+        {!isLast && <span className="mt-2 w-px flex-1 bg-white/8" />}
       </div>
 
-      <h3 className="text-gray-50 text-2xl font-bold mb-1">{role}</h3>
-      {company && (
-        <div className="text-cyan-200 font-mono text-sm mb-1">{company}</div>
-      )}
-      <p className="text-gray-500 text-sm mb-4 font-mono">{date}</p>
-      <ul className="space-y-3">
-        {items.map((item, idx) => (
-          <li
-            key={idx}
-            className="text-gray-400 text-lg leading-relaxed flex items-start"
-          >
-            <span className="text-cyan-300 mr-2 mt-1.5 text-xs">▹</span>
-            <span>{renderItemText(item)}</span>
-          </li>
-        ))}
-      </ul>
+      <div className="min-w-0 flex-1 pt-1">
+        <p className="font-mono text-xs text-slate-500">{date}</p>
+
+        <h3 className="mt-1 font-semibold text-white">{heading}</h3>
+        {subheading && <p className="text-sm text-slate-400">{subheading}</p>}
+
+        {stack && stack.length > 0 && (
+          <p className="mt-2 font-mono text-[11px] text-slate-600">
+            {stack.join(" · ")}
+          </p>
+        )}
+
+        <ul className="mt-4 space-y-2">
+          {items.map((item, idx) => (
+            <li key={idx} className="flex text-sm leading-relaxed text-slate-400">
+              <span aria-hidden="true" className="mr-3 text-slate-600">
+                &bull;
+              </span>
+              <span>{renderItemText(item)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

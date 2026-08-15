@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import PageHeader from "../components/layout/pageHeader";
 import { getThemeColor } from "../utils/helper";
 import { fetchJson } from "../utils/api";
 import type { Repository } from "../components/github/repoCard";
@@ -90,9 +89,9 @@ export default function Github() {
         setForkedRepos(userData.forkRepos.nodes);
         setCalendar(userData.contributionsCollection.contributionCalendar);
         setLoading(false);
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.error("error", e);
-        setError(e.message || "Failed to fetch data.");
+        setError(e instanceof Error ? e.message : "Failed to fetch data.");
         setLoading(false);
       }
     };
@@ -102,205 +101,145 @@ export default function Github() {
 
   if (loading)
     return (
-      <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-cyan-200 font-mono gap-4 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px]" />
-        <div className="w-8 h-8 border-4 border-cyan-300 border-t-transparent rounded-full animate-spin z-10" />
-        <p className="z-10">Initializing Uplink to GitHub...</p>
-      </div>
+      <>
+        <PageHeader />
+        <main className="mx-auto max-w-3xl px-6 pt-16">
+          <p className="font-mono text-sm text-slate-500">loading…</p>
+        </main>
+      </>
     );
 
   if (error || !calendar || !profile)
     return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-        <div className="bg-red-500/10 border border-red-500/20 p-8 rounded-xl max-w-md text-center backdrop-blur-md">
-          <h2 className="text-red-400 text-xl font-bold mb-2">
-            Connection Failed
-          </h2>
-          <p className="text-gray-400">{error || "Unknown error occurred."}</p>
-          <Link
-            to="/"
-            className="inline-block mt-6 text-sm text-gray-500 hover:text-white underline"
+      <>
+        <PageHeader />
+        <main className="mx-auto max-w-3xl px-6 pt-16">
+          <h1 className="text-4xl font-bold lowercase text-white">github</h1>
+          <p className="mt-4 text-slate-400">
+            Couldn&rsquo;t load the GitHub data right now.
+          </p>
+          <p className="mt-2 font-mono text-xs text-slate-600">
+            {error || "Unknown error."}
+          </p>
+          <a
+            href={`https://github.com/${username}`}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-8 inline-block rounded-md border border-white/12 px-5 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:border-white/30 hover:text-white"
           >
-            Return Home
-          </Link>
-        </div>
-      </div>
+            View profile on GitHub
+          </a>
+        </main>
+      </>
     );
 
   return (
-    <div className="min-h-screen bg-[#050505] text-gray-200 selection:bg-cyan-300/25 font-inter p-6 lg:p-12 relative overflow-hidden">
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-cyan-800/20 rounded-full blur-[128px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-sky-800/10 rounded-full blur-[128px]" />
-      </div>
+    <>
+      <PageHeader />
 
-      <div className="relative z-10">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors group px-4 py-2 rounded-lg hover:bg-white/5"
-        >
-          <span className="group-hover:-translate-x-1 transition-transform">
-            ←
-          </span>
-          Return to Base
-        </Link>
-
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-4 xl:col-span-3">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-gray-900/60 backdrop-blur-xl border border-white/10 rounded-3xl p-8 sticky top-8 shadow-2xl"
+      <main className="mx-auto max-w-3xl px-6 pt-16 pb-20">
+        <div className="flex items-start gap-5">
+          <img
+            src={profile.avatarUrl}
+            alt={profile.name}
+            className="h-16 w-16 rounded-full border border-white/10"
+          />
+          <div className="min-w-0">
+            <h1 className="text-2xl font-bold lowercase text-white">
+              {profile.name}
+            </h1>
+            <a
+              href={profile.url}
+              target="_blank"
+              rel="noreferrer"
+              className="font-mono text-sm text-accent-300 transition-colors hover:text-white"
             >
-              <div className="flex flex-col items-center text-center">
-                <div className="relative w-36 h-36 mb-6 group">
-                  <div className="absolute -inset-1 bg-gradient-to-tr from-cyan-500 to-sky-500 rounded-full blur opacity-60 group-hover:opacity-100 transition duration-500 animate-tilt"></div>
-                  <img
-                    src={profile.avatarUrl}
-                    alt={profile.name}
-                    className="relative w-full h-full rounded-full border-4 border-[#050505] object-cover"
-                  />
-                </div>
-
-                <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 mb-2">
-                  {profile.name}
-                </h1>
-                <a
-                  href={profile.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-cyan-200 font-mono text-sm hover:text-cyan-100 transition-colors mb-4 block"
-                >
-                  @{profile.login}
-                </a>
-
-                <p className="text-gray-400 text-sm mb-8 leading-relaxed">
-                  {profile.bio}
-                </p>
-
-                <div className="flex gap-4 text-sm mb-8 w-full justify-center">
-                  <div className="flex flex-col items-center px-4 py-2 bg-white/5 rounded-lg border border-white/5">
-                    <span className="font-bold text-white text-xl">
-                      {profile.followers.totalCount}
-                    </span>
-                    <span className="text-gray-500 text-[10px] uppercase tracking-wider">
-                      Followers
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center px-4 py-2 bg-white/5 rounded-lg border border-white/5">
-                    <span className="font-bold text-white text-xl">
-                      {profile.following.totalCount}
-                    </span>
-                    <span className="text-gray-500 text-[10px] uppercase tracking-wider">
-                      Following
-                    </span>
-                  </div>
-                </div>
-
-                <a
-                  href={profile.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full bg-white text-gray-900 font-bold py-3 rounded-xl hover:bg-gray-200 hover:scale-[1.02] transition-all text-center block shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-                >
-                  View GitHub Profile
-                </a>
-              </div>
-            </motion.div>
-          </div>
-
-          <div className="lg:col-span-8 xl:col-span-9 space-y-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-gray-900/40 border border-white/5 rounded-2xl p-6 overflow-hidden backdrop-blur-md"
-            >
-              <div className="flex justify-between items-end mb-6">
-                <h2 className="text-xl font-bold flex items-center gap-3 text-gray-200">
-                  <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-200 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-300"></span>
-                  </span>
-                  Contribution Graph
-                </h2>
-                <span className="text-gray-500 text-xs uppercase tracking-widest font-semibold">
-                  {calendar.totalContributions} commits / 1yr
-                </span>
-              </div>
-
-              <div className="overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-cyan-900 scrollbar-track-transparent">
-                <div className="flex gap-[3px]">
-                  {calendar.weeks.map((week, i) => (
-                    <div key={i} className="flex flex-col gap-[3px]">
-                      {week.contributionDays.map((day, j) => (
-                        <div
-                          key={j}
-                          className="w-3 h-3 rounded-[2px] transition-all duration-300 hover:scale-125 hover:z-10 relative"
-                          style={{
-                            backgroundColor: getThemeColor(
-                              day.contributionCount,
-                            ),
-                            boxShadow:
-                              day.contributionCount > 0
-                                ? `0 0 6px ${getThemeColor(day.contributionCount)}60`
-                                : "none",
-                          }}
-                          title={`${day.date}: ${day.contributionCount} contributions`}
-                        />
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            <div>
-              <div className="flex items-baseline gap-4 mb-6">
-                <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-sky-300">
-                  Source Code
-                </h2>
-                <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent"></div>
-                <span className="text-gray-500 text-sm font-mono">
-                  {sourceRepos.length} Repos
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {sourceRepos.length > 0 ? (
-                  sourceRepos.map((repo, idx) => (
-                    <RepoCard key={repo.name} repo={repo} index={idx} />
-                  ))
-                ) : (
-                  <div className="col-span-full text-gray-500 italic p-8 border border-white/5 bg-white/5 rounded-xl text-center">
-                    No public source repositories found.
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {forkedRepos.length > 0 && (
-              <div>
-                <div className="flex items-baseline gap-4 mb-6 pt-4">
-                  <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600">
-                    Forked Projects
-                  </h2>
-                  <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent"></div>
-                  <span className="text-gray-500 text-sm font-mono">
-                    {forkedRepos.length} Repos
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {forkedRepos.map((repo, idx) => (
-                    <RepoCard key={repo.name} repo={repo} index={idx} />
-                  ))}
-                </div>
-              </div>
+              @{profile.login}
+            </a>
+            {profile.bio && (
+              <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                {profile.bio}
+              </p>
             )}
+            <p className="mt-2 font-mono text-xs text-slate-600">
+              {profile.followers.totalCount} followers ·{" "}
+              {profile.following.totalCount} following
+            </p>
           </div>
         </div>
-      </div>
-    </div>
+
+        <section className="mt-14">
+          <div className="mb-5 flex items-baseline justify-between gap-4">
+            <h2 className="text-sm font-semibold lowercase text-white">
+              contributions
+            </h2>
+            <span className="font-mono text-xs text-slate-600">
+              {calendar.totalContributions} in the last year
+            </span>
+          </div>
+
+          <div className="overflow-x-auto pb-2">
+            <div className="flex gap-[3px]">
+              {calendar.weeks.map((week, i) => (
+                <div key={i} className="flex flex-col gap-[3px]">
+                  {week.contributionDays.map((day, j) => (
+                    <div
+                      key={j}
+                      className="h-2.5 w-2.5 rounded-[2px]"
+                      style={{
+                        backgroundColor: getThemeColor(day.contributionCount),
+                      }}
+                      title={`${day.date}: ${day.contributionCount} contributions`}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-14">
+          <div className="mb-5 flex items-baseline justify-between gap-4">
+            <h2 className="text-sm font-semibold lowercase text-white">
+              repositories
+            </h2>
+            <span className="font-mono text-xs text-slate-600">
+              {sourceRepos.length}
+            </span>
+          </div>
+
+          {sourceRepos.length > 0 ? (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {sourceRepos.map((repo, idx) => (
+                <RepoCard key={repo.name} repo={repo} index={idx} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-slate-500">
+              No public source repositories found.
+            </p>
+          )}
+        </section>
+
+        {forkedRepos.length > 0 && (
+          <section className="mt-14">
+            <div className="mb-5 flex items-baseline justify-between gap-4">
+              <h2 className="text-sm font-semibold lowercase text-white">
+                forks
+              </h2>
+              <span className="font-mono text-xs text-slate-600">
+                {forkedRepos.length}
+              </span>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {forkedRepos.map((repo, idx) => (
+                <RepoCard key={repo.name} repo={repo} index={idx} />
+              ))}
+            </div>
+          </section>
+        )}
+      </main>
+    </>
   );
 }

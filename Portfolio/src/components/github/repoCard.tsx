@@ -30,13 +30,13 @@ export default function RepoCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 + index * 0.05 }}
       className="group relative flex flex-col h-full p-6 rounded-2xl overflow-hidden transition-all duration-300
-    bg-gray-900/40 backdrop-blur-md border border-white/5 hover:border-cyan-300/30 hover:shadow-2xl hover:shadow-cyan-400/10"
+    border border-white/10 hover:border-white/25"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-sky-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-gradient-to-br from-accent-500/5 to-sky-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       <div className="relative z-10 flex flex-col h-full">
         <div className="flex justify-between items-start mb-4">
-          <h3 className="font-bold text-lg text-white group-hover:text-cyan-200 transition-colors flex items-center gap-2">
+          <h3 className="font-bold text-lg text-white group-hover:text-accent-200 transition-colors flex items-center gap-2">
             {repo.name}
           </h3>
           <div className="flex items-center gap-3 text-gray-400 text-xs font-mono bg-black/20 px-2 py-1 rounded-full">

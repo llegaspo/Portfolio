@@ -1,302 +1,157 @@
+import { Link } from "react-router-dom";
+import Hero from "../components/home/hero";
+import Nav, { type NavSection } from "../components/layout/nav";
+import Footer from "../components/layout/footer";
 import ProfileCard from "../components/profileCard";
-import Chip from "../components/ui/chip";
-import { useState } from "react";
-import Background from "../components/home/background";
-import { AnimatePresence, motion } from "framer-motion";
+import Section from "../components/ui/section";
 import ExperienceItem from "../components/home/experienceItem";
 import ProjectCard from "../components/home/projectCard";
-import Section from "../components/ui/section";
-import { FaArrowRight, FaChevronDown } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { EDUCATION, EXPERIENCES, PROJECTS, SKILLS } from "../data/portfolio";
+import {
+  ACTIVITIES,
+  EDUCATION,
+  EXPERIENCES,
+  FEATURED_PROJECT_IDS,
+  PROFILE,
+  PROJECTS,
+  SKILL_GROUPS,
+} from "../data/portfolio";
 
-const featuredProjects = PROJECTS.filter((project) =>
-  [
-    "isupply-seo",
-    "scratch-hq",
-    "get-nifty",
-    "school-announcement-website",
-    "eduroad",
-    "palengke",
-  ].includes(project.id),
-);
-
-const highlights = [
-  {
-    id: "panday",
-    title: "Philippine Startup Challenge (PSC) X",
-    result: "Top 25 Finalist",
-    shortDesc:
-      "Contributed to Panday, a platform connecting clients with informal service workers.",
-    fullDesc:
-      "Panday reached the Top 25 finalists in Central Visayas. I contributed to the product flow and overall platform experience for a web app connecting homeowners with informal workers.",
-    image: "/panday.webp",
-    projectId: "panday",
-  },
-  {
-    id: "palengke",
-    title: "IBPAP Hackathon (Can You HackIT?)",
-    result: "Hackathon Build",
-    shortDesc:
-      "Helped build PALengke, a React Native app for small vendors, from Figma under time pressure.",
-    fullDesc:
-      "PALengke was built during the IBPAP Hackathon. I helped translate the team's Figma designs into working React Native screens for a small-vendor marketplace concept.",
-    image: "/PALengke.webp",
-    projectId: "palengke",
-  },
-  {
-    id: "school-announcement-website",
-    title: "School Announcement Website",
-    result: "Coursework Project",
-    shortDesc:
-      "Built as a campus announcement platform with frontend work and backend contribution.",
-    fullDesc:
-      "I contributed to the frontend and part of the backend for a university announcement platform designed to make updates easier to publish and easier for students to find.",
-    image: "/announcementWebsite.webp",
-    projectId: "school-announcement-website",
-  },
-  {
-    id: "eduroad",
-    title: "Notion Hackathon (UP Cebu)",
-    result: "Hackathon Build",
-    shortDesc:
-      "Built EduRoad, a Flutter mobile app with AI and API-backed features for student guidance.",
-    fullDesc:
-      "EduRoad was developed during the Notion Hackathon at UP Cebu. I helped build the Flutter app and worked on integrating AI-driven and API-backed functionality into a practical mobile experience for students.",
-    image: "/eduroad.webp",
-    projectId: "eduroad",
-  },
+const SECTIONS: NavSection[] = [
+  { id: "about", label: "about" },
+  { id: "experience", label: "experience" },
+  { id: "projects", label: "projects" },
+  { id: "stack", label: "stack" },
 ];
 
+const featuredProjects = FEATURED_PROJECT_IDS.map((id) =>
+  PROJECTS.find((project) => project.id === id),
+).filter((project): project is (typeof PROJECTS)[number] => Boolean(project));
+
 export default function Home() {
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-
-  const toggle = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
-
   return (
-    <main className="min-h-screen text-gray-200 selection:bg-cyan-300/25">
-      <Background />
-      <div className="max-w-[1600px] mx-auto flex flex-col lg:justify-center lg:flex-row">
-        <div className="mt-6 lg:mt-0 lg:w-[40%] lg:pl-20 lg:h-screen lg:sticky lg:top-6 p-6 flex flex-col items-center lg:items-end lg:border-r border-gray-800/50 relative z-20">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="w-full max-w-md"
-          >
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-sky-500 rounded-2xl blur opacity-20"></div>
-              <div className="relative overflow-hidden bg-gray-900/80 backdrop-blur-xl border border-gray-800 rounded-2xl p-2 shadow-2xl">
-                <ProfileCard />
-              </div>
-            </div>
-          </motion.div>
-        </div>
+    <>
+      <Nav sections={SECTIONS} />
 
-        <div className="lg:w-[65%] p-6 md:p-12 lg:p-20 pt-12 overflow-x-hidden">
-          <Section title="// 01_ABOUT" delay={0.2}>
-            <p className="text-xl text-gray-300 leading-relaxed mb-6 max-w-3xl">
-              I am a contract web developer focused on responsive frontend
-              work, CMS customization, and practical website delivery. I build
-              and improve sites that stay clean, usable, and reliable across
-              desktop, tablet, and mobile.
-            </p>
-            <p className="text-xl text-gray-400 leading-relaxed max-w-3xl">
-              Recent work includes live client websites like
-              isupplyseo.com.au, scratchhq.au, and getnifty.xyz, alongside
-              coursework and competition projects built with React, TypeScript,
-              React Native, WordPress, Firebase, and PostgreSQL.
-            </p>
-          </Section>
+      <a
+        href="#about"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent-500 focus:px-4 focus:py-2 focus:text-sm focus:text-white"
+      >
+        Skip to content
+      </a>
 
-          <Section title="// TECH_ARSENAL" delay={0.2}>
-            <div className="mb-8">
-              <h3 className="text-white text-xl font-bold mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 bg-cyan-300 rounded-full" />
-                Languages
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {["HTML", "CSS", "JavaScript", "TypeScript"].map((tech) => (
-                  <Chip key={tech} text={tech} size={14} />
-                ))}
-              </div>
-            </div>
+      <div className="mx-auto max-w-3xl px-6">
+        <Hero />
 
-            <div className="mb-8">
-              <h3 className="text-white text-xl font-bold mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 bg-blue-500 rounded-full" /> Frameworks
-                & Libraries
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {["React", "React Native", "Tailwind CSS", "WordPress", "Zod", "tRPC"].map(
-                  (tech) => (
-                    <Chip key={tech} text={tech} size={14} />
-                  ),
-                )}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-white text-xl font-bold mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 bg-emerald-500 rounded-full" />
-                Database & Infra
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {[...SKILLS.backend, "Git/GitHub", "API Integration", "Hygraph"].map(
-                  (tech) => (
-                    <Chip key={tech} text={tech} size={14} />
-                  ),
-                )}
-              </div>
+        <main>
+          <Section id="about" title="about">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+              <ProfileCard />
+              <p className="leading-relaxed text-slate-400">
+                {PROFILE.summary}
+              </p>
             </div>
           </Section>
 
-          <Section title="// EXPERIENCE" delay={0.2}>
+          <Section id="experience" title="experience">
             {EXPERIENCES.map((experience, index) => (
               <ExperienceItem
-                key={`${experience.role}-${experience.period}`}
+                key={`${experience.company ?? experience.role}-${experience.period}`}
                 role={experience.role}
                 company={experience.company}
+                monogram={experience.monogram}
                 date={experience.period}
+                stack={experience.stack}
+                roleAsHeading={experience.roleAsHeading}
                 items={experience.bullets}
                 isLast={index === EXPERIENCES.length - 1}
               />
             ))}
           </Section>
 
-          <Section title="// PROJECTS" delay={0.2}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+          <Section id="projects" title="projects">
+            <div className="grid gap-4 sm:grid-cols-2">
               {featuredProjects.map((project) => (
                 <ProjectCard
                   key={project.id}
                   id={project.id}
                   title={project.title}
-                  description={project.summary}
-                  image={project.image ?? "/announcementWebsite.webp"}
-                  tags={project.tags}
+                  description={project.subtitle}
+                  techStack={project.techStack}
+                  image={project.image}
+                  domain={project.domain}
                 />
               ))}
             </div>
           </Section>
 
-          <Section title="// PROJECTS & COMPETITIONS" delay={0.2}>
-            <div className="space-y-4 max-w-4xl">
-              {highlights.map((comp) => {
-                const isOpen = expandedId === comp.id;
+          <Section id="stack" title="stack">
+            <dl className="space-y-4">
+              {SKILL_GROUPS.map((group) => (
+                <div
+                  key={group.label}
+                  className="flex flex-col gap-1 sm:flex-row sm:gap-6"
+                >
+                  <dt className="w-40 shrink-0 font-mono text-xs text-slate-600">
+                    {group.label.toLowerCase()}
+                  </dt>
+                  <dd className="text-sm text-slate-400">
+                    {group.items.join(", ")}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </Section>
 
-                return (
-                  <motion.div
-                    key={comp.id}
-                    initial={false}
-                    className={`group border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 ${
-                      isOpen
-                        ? "bg-white/5 border-cyan-300/30"
-                        : "hover:bg-white/[0.02]"
-                    }`}
-                  >
-                    <button
-                      onClick={() => toggle(comp.id)}
-                      className="w-full text-left p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-pointer outline-none"
+          <Section id="activities" title="activities">
+            <ul className="space-y-5">
+              {ACTIVITIES.map((activity) => (
+                <li key={activity.id}>
+                  <div className="flex flex-wrap items-baseline gap-x-3">
+                    <Link
+                      to={`/project/${activity.projectId}`}
+                      className="text-sm font-medium text-white transition-colors hover:text-accent-300"
                     >
-                      <div className="flex-1">
-                        <div className="flex flex-wrap items-center gap-3 mb-2">
-                          <h3
-                            className={`text-xl font-bold transition-colors ${
-                              isOpen
-                                ? "text-cyan-200"
-                                : "text-gray-100 group-hover:text-cyan-200"
-                            }`}
-                          >
-                            {comp.title}
-                          </h3>
-                          <span
-                            className={`text-xs font-mono px-2 py-1 rounded border ${
-                              comp.result.includes("Top")
-                                ? "border-emerald-500/30 text-emerald-400 bg-emerald-500/10"
-                                : "border-gray-700 text-gray-400"
-                            }`}
-                          >
-                            {comp.result}
-                          </span>
-                        </div>
-                        <p className="text-gray-400 text-sm md:text-base font-light">
-                          {comp.shortDesc}
-                        </p>
-                      </div>
-
-                      <div
-                        className={`text-gray-500 transition-transform duration-300 ${
-                          isOpen ? "rotate-180 text-cyan-300" : ""
-                        }`}
-                      >
-                        <FaChevronDown />
-                      </div>
-                    </button>
-
-                    <AnimatePresence>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                        >
-                          <div className="px-6 pb-6 pt-0 border-t border-white/5">
-                            <div className="flex flex-col md:flex-row gap-6 mt-6">
-                              <div className="w-full md:w-48 h-32 flex-shrink-0 rounded-lg overflow-hidden relative">
-                                <img
-                                  src={comp.image}
-                                  alt={comp.title}
-                                  className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
-                                />
-                                <div className="absolute inset-0 bg-cyan-900/20 mix-blend-overlay" />
-                              </div>
-
-                              <div className="flex-1">
-                                <p className="text-gray-300 leading-relaxed mb-6">
-                                  {comp.fullDesc}
-                                </p>
-
-                                <Link
-                                  to={`/project/${comp.projectId}`}
-                                  className="inline-flex items-center gap-2 text-sm font-bold text-cyan-200 hover:text-white transition-colors group/btn"
-                                >
-                                  <span>View Project Case Study</span>
-                                  <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                );
-              })}
-            </div>
+                      {activity.title}
+                    </Link>
+                    <span className="font-mono text-[11px] text-slate-600">
+                      {activity.result}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-400">
+                    {activity.shortDesc}
+                  </p>
+                </li>
+              ))}
+            </ul>
           </Section>
 
-          <Section title="// EDUCATION" delay={0.2}>
-            <div className="bg-gray-900/30 p-6 rounded-xl border-l-4 border-cyan-300">
-              <h3 className="text-2xl font-bold text-gray-50">
-                {EDUCATION.school}
-              </h3>
-              <p className="text-cyan-200 font-mono mb-4">
-                {EDUCATION.degree} ({EDUCATION.graduation})
-              </p>
-              <p className="text-gray-400 text-lg">
-                {EDUCATION.academicNotes[0]}
-                <br />
-                {EDUCATION.academicNotes[1]}
-                <br />
-                {EDUCATION.academicNotes[3]}
-              </p>
-            </div>
+          <Section id="education" title="education">
+            <p className="font-mono text-xs text-slate-500">
+              {EDUCATION.graduation}
+            </p>
+            <h3 className="mt-1 font-semibold text-white">
+              {EDUCATION.school}
+            </h3>
+            <p className="text-sm text-slate-400">{EDUCATION.degree}</p>
+            <p className="mt-1 font-mono text-xs text-slate-500">
+              {EDUCATION.gwa}
+            </p>
+
+            <ul className="mt-4 space-y-1.5">
+              {EDUCATION.academicNotes.map((note) => (
+                <li key={note} className="flex text-sm text-slate-400">
+                  <span aria-hidden="true" className="mr-3 text-slate-600">
+                    &bull;
+                  </span>
+                  {note}
+                </li>
+              ))}
+            </ul>
           </Section>
-        </div>
+        </main>
+
+        <Footer />
       </div>
-    </main>
+    </>
   );
 }

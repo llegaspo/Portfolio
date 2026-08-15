@@ -1,34 +1,24 @@
-import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 
 interface SectionProps {
+  /** Anchor target for nav scroll-spy. */
+  id: string;
   title: string;
   children: ReactNode;
-  delay?: number;
 }
 
-export default function Section({ title, children, delay = 0 }: SectionProps) {
-  return (
-    <section className="mb-24 relative">
-      <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, delay: delay, ease: "easeOut" }}
-      >
-        <h2 className="text-cyan-200 mb-8 text-4xl font-extrabold font-['JetBrains_Mono']">
-          {title}
-        </h2>
-      </motion.div>
+export default function Section({ id, title, children }: SectionProps) {
+  const headingId = `${id}-heading`;
 
-      <motion.div
-        initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, delay: delay + 0.0, ease: "easeOut" }}
+  return (
+    <section id={id} aria-labelledby={headingId} className="scroll-mt-20 py-14">
+      <h2
+        id={headingId}
+        className="mb-8 text-sm font-semibold lowercase text-white"
       >
-        {children}
-      </motion.div>
+        {title}
+      </h2>
+      {children}
     </section>
   );
 }

@@ -8,9 +8,9 @@ export const formatDate = (dateString: string) => {
 };
 
 export const getThemeColor = (count: number) => {
-  if (count === 0) return "rgba(31, 41, 55, 0.4)";
-  if (count <= 2) return "#0f4c5c";
-  if (count <= 5) return "#0891b2";
-  if (count <= 10) return "#22d3ee";
-  return "#bae6fd";
+  if (count === 0) return "rgba(19, 27, 38, 0.6)";
+  if (count <= 2) return "#1e3a8a";
+  if (count <= 5) return "#2563eb";
+  if (count <= 10) return "#5b9dff";
+  return "#c2d8ff";
 };
